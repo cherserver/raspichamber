@@ -9,6 +9,9 @@ import (
 	"gobot.io/x/gobot/platforms/raspi"
 )
 
+// TODO: move to config
+const servoPin = "7"
+
 type servo struct {
 	robot *gobot.Robot
 }
@@ -21,7 +24,7 @@ func New() *servo {
 
 func (s *servo) Init() error {
 	r := raspi.NewAdaptor()
-	hardwareServo := gpio.NewServoDriver(r, "7")
+	hardwareServo := gpio.NewServoDriver(r, servoPin)
 
 	work := func() {
 		gobot.Every(1*time.Second, func() {
@@ -39,4 +42,8 @@ func (s *servo) Init() error {
 	)
 
 	return robot.Start()
+}
+
+func (s *servo) Stop() {
+
 }
