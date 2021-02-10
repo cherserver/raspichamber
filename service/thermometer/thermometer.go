@@ -35,6 +35,7 @@ func (t *thermometer) Init() error {
 func (t *thermometer) workCycle() {
 	// TODO: exit after experiment end
 	for {
+		log.Printf("DHT read cycle: %v", t.pin)
 		temperature, humidity, _, err :=
 			dht.ReadDHTxxWithRetry(dht.DHT22, t.pin, false, numRetries)
 
