@@ -8,20 +8,21 @@ import (
 
 const (
 	// TODO: move to config
-	fanPin          = 12
-	fanSpeedPercent = 25
+	fanSpeedPercent = 10
 
 	pwmFreq     = 25000 // 25kHz for fan pm pin
 	pwmCycleLen = 100   // so dutyLen will be percent
 )
 
 type fan struct {
-	pin rpio.Pin
+	pwmPin        rpio.Pin
+	tachometerPin rpio.Pin
 }
 
-func New() *fan {
+func New(pwmPin rpio.Pin, tachometerPin rpio.Pin) *fan {
 	return &fan{
-		pin: rpio.Pin(fanPin),
+		pwmPin:        pwmPin,
+		tachometerPin: tachometerPin,
 	}
 }
 
@@ -32,9 +33,9 @@ func (f *fan) Init() error {
 		return err
 	}
 
-	f.pin.Pwm()
-	f.pin.Freq(pwmFreq * pwmCycleLen)
-	f.pin.DutyCycle(fanSpeedPercent, pwmCycleLen)
+	f.pwmPin.Pwm()
+	f.pwmPin.Freq(pwmFreq * pwmCycleLen)
+	f.pwmPin.DutyCycle(fanSpeedPercent, pwmCycleLen)
 
 	return nil
 }
@@ -45,4 +46,12 @@ func (f *fan) Stop() {
 	if err != nil {
 		log.Printf("PWM pin stop error: %v", err)
 	}
+}
+
+func (f *fan) SetSpeedPercent(percent uint32) {
+	f.pwmPin.DutyCycle(percent, pwmCycleLen)
+}
+
+func (f *fan) RPM() (uint32, error) {
+	return 0, nil
 }

@@ -2,6 +2,7 @@ package servo
 
 import (
 	"log"
+	"sync/atomic"
 	"time"
 
 	"gobot.io/x/gobot"
@@ -9,41 +10,50 @@ import (
 	"gobot.io/x/gobot/platforms/raspi"
 )
 
-// TODO: move to config
-const servoPin = "7"
-
 type servo struct {
-	robot *gobot.Robot
+	pin           string
+	robot         *gobot.Robot
+	requiredAngle uint32
 }
 
-func New() *servo {
+func New(pin string) *servo {
 	return &servo{
-		robot: nil,
+		pin:           pin,
+		robot:         nil,
+		requiredAngle: 30,
 	}
 }
 
 func (s *servo) Init() error {
 	r := raspi.NewAdaptor()
-	hardwareServo := gpio.NewServoDriver(r, servoPin)
+	hardwareServo := gpio.NewServoDriver(r, s.pin)
 
 	work := func() {
 		gobot.Every(1*time.Second, func() {
-			err := hardwareServo.Center()
+			angle := atomic.LoadUint32(&s.requiredAngle)
+			err := hardwareServo.Move(uint8(angle))
 			if err != nil {
-				log.Printf("Servo error: %v", err)
+				log.Printf("Servo cycle error: %v", err)
 			}
 		})
 	}
 
-	robot := gobot.NewRobot("servo",
+	s.robot = gobot.NewRobot("servo",
 		[]gobot.Connection{r},
 		[]gobot.Device{hardwareServo},
 		work,
 	)
 
-	return robot.Start()
+	return s.robot.Start()
 }
 
 func (s *servo) Stop() {
+	err := s.robot.Stop()
+	if err != nil {
+		log.Printf("Servo stop error: %v", err)
+	}
+}
 
+func (s *servo) SetAngle(angle uint8) {
+	atomic.StoreUint32(&s.requiredAngle, uint32(angle))
 }
