@@ -6,10 +6,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/cherserver/raspichamber/service/fan"
-	"github.com/cherserver/raspichamber/service/pinout"
-	"github.com/cherserver/raspichamber/service/servo"
-	"github.com/cherserver/raspichamber/service/thermometer"
+	"github.com/cherserver/raspichamber/service/hardware/fan"
+	"github.com/cherserver/raspichamber/service/hardware/pinout"
+	"github.com/cherserver/raspichamber/service/hardware/servo"
+	"github.com/cherserver/raspichamber/service/hardware/thermometer"
 )
 
 func main() {

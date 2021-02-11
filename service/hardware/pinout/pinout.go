@@ -7,14 +7,14 @@ const (
 	ExternalFanPwmPin        = 13
 	ExternalFanTachometerPin = 4
 
-	PiFanPwmPin        = 0
+	PiFanPwmPin        = 9
 	PiFanTachometerPin = 1
 
 	OuterTempPin    = 23
 	InnerTempPin    = 22
 	FilamentTempPin = 2
 
-	ServoPin = "5" // physical pin on header, not a GPIO pin
+	ServoPin = 3
 
 	HeaterButton1 = 26
 	HeaterButton2 = 16

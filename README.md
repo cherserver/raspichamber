@@ -63,7 +63,7 @@
     <tr>
         <td rowspan="2">Вентилятор охлаждения RPi</td>
         <td>Fan PWM in</td>
-        <td>GPIO0 (ID_SD)</td>
+        <td>GPIO9 (MISO)</td>
     </tr>
     <tr>
         <td>Fan Tachometer out</td>
@@ -82,6 +82,6 @@ PWM для сервопривода и кулера PI предоставляе�
 https://github.com/sarfata/pi-blaster, запущенного с флагом '-pcm'
 и скомпилированного с параметрами
 ```с
-#define CYCLE_TIME_US 40
-#define SAMPLE_US     2
+#define CYCLE_TIME_US 4000
+#define SAMPLE_US     10
 ```
