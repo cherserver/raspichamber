@@ -23,7 +23,7 @@ build-release: BUILD_TYPE = release
 build-release: --build
 
 build-debug: BUILD_TYPE = debug
-build-debug: BUILD_ARGS += -race -tags pprof
+build-debug: BUILD_ARGS += -tags pprof
 build-debug: --build
 
 build-profile: BUILD_TYPE = profile
