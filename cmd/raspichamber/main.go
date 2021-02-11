@@ -8,16 +8,17 @@ import (
 
 	"github.com/cherserver/raspichamber/service/fan"
 	"github.com/cherserver/raspichamber/service/pinout"
+	"github.com/cherserver/raspichamber/service/servo"
 	"github.com/cherserver/raspichamber/service/thermometer"
 )
 
 func main() {
 	var err error
-	// capServo := servo.New(pinout.ServoPin)
-	// err = capServo.Init()
-	// if err != nil {
-	//	log.Fatalf("Failed to initialize capServo: %v", err)
-	//}
+	capServo := servo.New(pinout.ServoPin)
+	err = capServo.Init()
+	if err != nil {
+		log.Fatalf("Failed to initialize capServo: %v", err)
+	}
 
 	externalFan := fan.New(pinout.ExternalFanPwmPin, pinout.ExternalFanTachometerPin)
 	err = externalFan.Init()
@@ -62,5 +63,5 @@ func main() {
 	outerTemp.Stop()
 	internalFan.Stop()
 	externalFan.Stop()
-	// capServo.Stop()
+	capServo.Stop()
 }

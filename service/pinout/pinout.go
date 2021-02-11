@@ -14,7 +14,7 @@ const (
 	InnerTempPin    = 22
 	FilamentTempPin = 2
 
-	ServoPin = "3"
+	ServoPin = "5" // physical pin on header, not a GPIO pin
 
 	HeaterButton1 = 26
 	HeaterButton2 = 16
