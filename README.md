@@ -75,3 +75,13 @@
         <td>GPIO3 (SCL)</td>
     </tr>
 </table>
+
+Для вытяжного и перепускного вентилятора используется hardware PWM.
+
+PWM для сервопривода и кулера PI предоставляется с помощью
+https://github.com/sarfata/pi-blaster, запущенного с флагом '-pcm'
+и скомпилированного с параметрами
+```с
+#define CYCLE_TIME_US 40
+#define SAMPLE_US     2
+```

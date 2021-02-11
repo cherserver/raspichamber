@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/cristalhq/atomix"
+	"github.com/d2r2/go-logger"
 
 	"github.com/d2r2/go-dht"
 )
@@ -28,6 +29,7 @@ func New(pin int) *thermometer {
 }
 
 func (t *thermometer) Init() error {
+	_ = logger.ChangePackageLogLevel("dht", logger.WarnLevel)
 	go t.workCycle()
 	return nil
 }

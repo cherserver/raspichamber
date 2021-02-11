@@ -2,6 +2,9 @@ package main
 
 import (
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/cherserver/raspichamber/service/fan"
 	"github.com/cherserver/raspichamber/service/pinout"
@@ -46,8 +49,10 @@ func main() {
 		log.Fatalf("Failed to initialize filament thermometer: %v", err)
 	}
 
-	// TODO: wait for sigterm, sighup
-	// signal.Notify()
+	stopSignalCh := make(chan os.Signal, 1)
+	signal.Notify(stopSignalCh, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
+	stopSignal := <-stopSignalCh
+	log.Printf("Signal '%+v' caught, exit", stopSignal)
 
 	filamentTemp.Stop()
 	innerTemp.Stop()
