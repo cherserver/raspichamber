@@ -50,8 +50,8 @@ func main() {
 		log.Fatalf("Failed to initialize filament thermometer: %v", err)
 	}
 
-	internalFan.SetSpeedPercent(40)
-	externalFan.SetSpeedPercent(40)
+	internalFan.SetSpeedPercent(0)
+	externalFan.SetSpeedPercent(0)
 
 	stopSignalCh := make(chan os.Signal, 1)
 	signal.Notify(stopSignalCh, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
