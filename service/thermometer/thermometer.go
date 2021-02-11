@@ -29,7 +29,7 @@ func New(pin int) *thermometer {
 }
 
 func (t *thermometer) Init() error {
-	_ = logger.ChangePackageLogLevel("dht", logger.WarnLevel)
+	_ = logger.ChangePackageLogLevel("dht", logger.ErrorLevel)
 	go t.workCycle()
 	return nil
 }
