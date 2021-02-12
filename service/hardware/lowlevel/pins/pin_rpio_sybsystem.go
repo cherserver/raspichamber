@@ -59,6 +59,6 @@ func requireIsInitializedRPIO(subsystem lowlevel.PinSubsystem, pin lowlevel.Pin)
 	}
 
 	if !subsystem.IsInitialized() {
-		log.Panicf("Pin '%v' is initialized before RPIO pin subsystem", pin)
+		log.Panicf("Try to initialize pin '%v' before RPIO pin subsystem", pin)
 	}
 }

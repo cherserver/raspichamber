@@ -25,7 +25,7 @@ func (f *pinPiBlasterSubsystem) IsInitialized() bool {
 }
 
 func (f *pinPiBlasterSubsystem) Type() interface{} {
-	return subsystemTypeRPIO
+	return subsystemTypePiBlaster
 }
 
 func NewPiBlasterPinSubsystem() *pinPiBlasterSubsystem {
@@ -61,6 +61,6 @@ func requireIsInitializedPiBlaster(subsystem lowlevel.PinSubsystem, pin lowlevel
 	}
 
 	if !subsystem.IsInitialized() {
-		log.Panicf("Pin '%v' is initialized before pi-blaster subsystem", pin)
+		log.Panicf("Try to initialize pin '%v' before pi-blaster subsystem", pin)
 	}
 }
