@@ -1,8 +1,6 @@
 package devices
 
 import (
-	"log"
-
 	"github.com/cristalhq/atomix"
 	"github.com/d2r2/go-logger"
 
@@ -52,18 +50,13 @@ func (t *Thermometer) Init() error {
 func (t *Thermometer) workCycle() {
 	// TODO: exit after experiment end
 	for {
-		log.Printf("DHT read cycle: %v", t.pin)
 		temperature, humidity, _, err :=
 			dht.ReadDHTxxWithRetry(dht.DHT22, t.pin.GPIOIndex(), false, numRetries)
 
-		if err != nil {
-			log.Printf("DHT read error: %v", err)
-		}
+		_ = err
 
 		t.temperature.Store(temperature)
 		t.humidity.Store(humidity)
-
-		log.Printf("DHT read temperature: %v, humidity: %v", temperature, humidity)
 	}
 }
 
