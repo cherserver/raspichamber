@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/warthog618/gpiod"
-	"github.com/warthog618/gpiod/device/rpi"
 
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
 )
@@ -25,7 +24,7 @@ func NewRPMSensorPin(pinSubsystem lowlevel.PinSubsystem, pin lowlevel.Pin) *rpmS
 	return &rpmSensorPin{
 		pinSubsystem: pinSubsystem,
 		pin:          pin,
-		hwPin:        pin.GPIOIndex(),
+		hwPin:        pin.J8Index(),
 	}
 }
 
@@ -37,8 +36,7 @@ func (f *rpmSensorPin) Init() error {
 		return fmt.Errorf("failed to initialize pin '%v', failed to init GPIOD chip: %w", f.pin, err)
 	}
 
-	offset := rpi.J8p7
-	f.line, err = f.chip.RequestLine(offset,
+	f.line, err = f.chip.RequestLine(f.hwPin,
 		gpiod.WithPullUp,
 		gpiod.WithRisingEdge,
 		gpiod.WithEventHandler(f.edgeEventHandler))

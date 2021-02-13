@@ -14,6 +14,7 @@ type Pin interface {
 	fmt.Stringer
 
 	GPIOIndex() int
+	J8Index() int
 	Name() string
 }
 

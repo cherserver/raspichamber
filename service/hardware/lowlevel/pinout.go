@@ -40,6 +40,10 @@ func (p pin) GPIOIndex() int {
 	return p.gpioIndex
 }
 
+func (p pin) J8Index() int {
+	return p.j8Index
+}
+
 func (p pin) Name() string {
 	return p.name
 }
