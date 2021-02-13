@@ -7,7 +7,7 @@ type PinSubsystem interface {
 	Stop()
 
 	IsInitialized() bool
-	Type() interface{}
+	Type() interface{} // not for type assertion, just for equation
 }
 
 type Pin interface {
