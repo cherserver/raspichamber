@@ -25,7 +25,7 @@ func NewRPMSensorPin(pinSubsystem lowlevel.PinSubsystem, pin lowlevel.Pin) *rpmS
 	return &rpmSensorPin{
 		pinSubsystem: pinSubsystem,
 		pin:          pin,
-		hwPin:        rpi.MustPin(fmt.Sprint(pin.J8Index())),
+		hwPin:        rpi.MustPin(fmt.Sprintf("j8p%v", pin.J8Index())),
 	}
 }
 
