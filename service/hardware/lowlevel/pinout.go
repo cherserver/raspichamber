@@ -1,6 +1,10 @@
 package lowlevel
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/warthog618/gpiod/device/rpi"
+)
 
 const (
 	InnerFanPwmGPIO   = 12
@@ -26,6 +30,7 @@ const (
 
 type pin struct {
 	gpioIndex int
+	j8Index   int
 	name      string
 }
 
@@ -51,6 +56,7 @@ var (
 
 	InnerFanTachoPin = pin{
 		gpioIndex: InnerFanTachoGPIO,
+		j8Index:   rpi.J8p11,
 		name:      "internal_fan_tacho_pin",
 	}
 
@@ -61,6 +67,7 @@ var (
 
 	OuterFanTachoPin = pin{
 		gpioIndex: OuterFanTachoGPIO,
+		j8Index:   rpi.J8p7,
 		name:      "external_fan_tacho_pin",
 	}
 
@@ -71,6 +78,7 @@ var (
 
 	RPiFanTachoPin = pin{
 		gpioIndex: RPiFanTachoGPIO,
+		j8Index:   rpi.J8p28,
 		name:      "rpi_fan_tacho_pin",
 	}
 
