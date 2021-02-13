@@ -68,7 +68,7 @@ func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
 		edge = "falling"
 	}
 
-	fmt.Printf("event:%3d %-7s %s (%s)\n",
+	log.Printf("event:%3d %-7s %s (%s)\n",
 		evt.Offset,
 		edge,
 		t.Format(time.RFC3339Nano),
