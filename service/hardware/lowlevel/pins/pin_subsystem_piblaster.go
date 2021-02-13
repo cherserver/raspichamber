@@ -4,8 +4,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/stianeikeland/go-rpio"
-
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
 )
 
@@ -47,13 +45,7 @@ func (f *pinPiBlasterSubsystem) Init() error {
 	return nil
 }
 
-func (f *pinPiBlasterSubsystem) Stop() {
-	err := rpio.Close()
-
-	if err != nil {
-		log.Printf("PWM pin stop error: %v", err)
-	}
-}
+func (f *pinPiBlasterSubsystem) Stop() {}
 
 func requireIsInitializedPiBlaster(subsystem lowlevel.PinSubsystem, pin lowlevel.Pin) {
 	if subsystem.Type() != subsystemTypePiBlaster {
