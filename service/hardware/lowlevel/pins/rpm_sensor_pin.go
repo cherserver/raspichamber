@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/warthog618/gpiod"
+	"github.com/warthog618/gpiod/device/rpi"
 
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
 )
@@ -24,7 +25,7 @@ func NewRPMSensorPin(pinSubsystem lowlevel.PinSubsystem, pin lowlevel.Pin) *rpmS
 	return &rpmSensorPin{
 		pinSubsystem: pinSubsystem,
 		pin:          pin,
-		hwPin:        pin.J8Index(),
+		hwPin:        rpi.MustPin(fmt.Sprint(pin.J8Index())),
 	}
 }
 

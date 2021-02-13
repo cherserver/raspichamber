@@ -13,9 +13,9 @@ type PinSubsystem interface {
 type Pin interface {
 	fmt.Stringer
 
-	GPIOIndex() int
-	J8Index() int
 	Name() string
+	J8Index() int
+	GPIOIndex() int
 }
 
 type PwmPin interface {
