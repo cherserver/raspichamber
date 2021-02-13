@@ -29,7 +29,7 @@ type RpmSensorPin interface {
 	Init() error
 	Stop()
 
-	RPM() (uint32, error)
+	RPM() (uint64, error)
 }
 
 type SwitchPin interface {

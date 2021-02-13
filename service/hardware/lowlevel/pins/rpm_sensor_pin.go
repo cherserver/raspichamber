@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/paulbellamy/ratecounter"
 	"github.com/warthog618/gpiod"
 	"github.com/warthog618/gpiod/device/rpi"
 
@@ -17,6 +18,7 @@ type rpmSensorPin struct {
 	hwPin        int
 	chip         *gpiod.Chip
 	line         *gpiod.Line
+	counter      *ratecounter.RateCounter
 }
 
 var _ lowlevel.RpmSensorPin = &rpmSensorPin{}
@@ -26,11 +28,12 @@ func NewRPMSensorPin(pinSubsystem lowlevel.PinSubsystem, pin lowlevel.Pin) *rpmS
 		pinSubsystem: pinSubsystem,
 		pin:          pin,
 		hwPin:        rpi.MustPin(fmt.Sprintf("j8p%v", pin.J8Index())),
+
+		counter: ratecounter.NewRateCounter(1 * time.Second),
 	}
 }
 
 func (f *rpmSensorPin) Init() error {
-	// requireIsInitializedRPIO(f.pinSubsystem, f.pin)
 	var err error
 	f.chip, err = gpiod.NewChip("gpiochip0")
 	if err != nil {
@@ -63,19 +66,14 @@ func (f *rpmSensorPin) Stop() {
 }
 
 func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
-	t := time.Now()
-	edge := "rising"
-	if evt.Type == gpiod.LineEventFallingEdge {
-		edge = "falling"
-	}
-
-	log.Printf("event:%3d %-7s %s (%s)\n",
-		evt.Offset,
-		edge,
-		t.Format(time.RFC3339Nano),
-		evt.Timestamp)
+	f.counter.Incr(1)
+	/*log.Printf("event:%3d %-7s %s (%s)\n",
+	evt.Offset,
+	edge,
+	t.Format(time.RFC3339Nano),
+	evt.Timestamp)*/
 }
 
-func (f *rpmSensorPin) RPM() (uint32, error) {
-	return 0, nil
+func (f *rpmSensorPin) RPM() (uint64, error) {
+	return uint64(f.counter.Rate()), nil
 }
