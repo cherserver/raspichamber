@@ -5,7 +5,10 @@ import (
 
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel/pins"
+	"github.com/cherserver/raspichamber/service/software"
 )
+
+var _ software.Fan = &Fan{}
 
 func NewOuterFan(subsystems *PinSubsystems) *Fan {
 	return newFan(
@@ -59,4 +62,12 @@ func (f *Fan) Init() error {
 func (f *Fan) Stop() {
 	f.tachoPin.Stop()
 	f.pwmPin.Stop()
+}
+
+func (f *Fan) RPM() uint64 {
+	return f.RPM()
+}
+
+func (f *Fan) SetSpeedPercent(value uint8) error {
+	return f.SetSpeedPercent(value)
 }

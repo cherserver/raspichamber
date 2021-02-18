@@ -7,6 +7,7 @@ import (
 
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel/pins"
+	"github.com/cherserver/raspichamber/service/software"
 )
 
 const (
@@ -14,6 +15,8 @@ const (
 	pressDuration  = 200 * time.Millisecond
 	releaseTimeout = 100 * time.Millisecond
 )
+
+var _ software.DryerControl = &DryerControl{}
 
 type DryerControl struct {
 	powerButton *button

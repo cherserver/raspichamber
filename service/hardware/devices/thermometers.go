@@ -7,11 +7,14 @@ import (
 	"github.com/d2r2/go-dht"
 
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
+	"github.com/cherserver/raspichamber/service/software"
 )
 
 const (
 	numRetries = 10
 )
+
+var _ software.Thermometer = &Thermometer{}
 
 func NewInnerThermometer(subsystems *PinSubsystems) *Thermometer {
 	return newThermometer(subsystems, lowlevel.InnerTempPin)
