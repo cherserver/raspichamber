@@ -44,11 +44,11 @@ func (s *server) Init() error {
 	http.Handle("/", fileServer)
 
 	http.HandleFunc("/devices", s.statusHandler)
-	http.HandleFunc("/devices/inner-fan", s.fanHandler)
-	http.HandleFunc("/devices/outer-fan", s.fanHandler)
-	http.HandleFunc("/devices/rpi-fan", s.fanHandler)
-	http.HandleFunc("/devices/dryer-control", s.dryerControlHandler)
-	http.HandleFunc("/devices/dryer-hatch/set-angle", s.dryerHatchHandler)
+	http.HandleFunc("/devices/inner-fan/", s.fanHandler)
+	http.HandleFunc("/devices/outer-fan/", s.fanHandler)
+	http.HandleFunc("/devices/rpi-fan/", s.fanHandler)
+	http.HandleFunc("/devices/dryer-control/", s.dryerControlHandler)
+	http.HandleFunc("/devices/dryer-hatch/", s.dryerHatchHandler)
 
 	server := &http.Server{Addr: ":8080", Handler: nil}
 	ln, err := net.Listen("tcp", server.Addr)
