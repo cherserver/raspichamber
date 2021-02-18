@@ -31,8 +31,8 @@
     innerFanSlider.root.addEventListener('MDCSlider:change', e => {
         console.log(innerFanSlider.getValue());
         const request = new XMLHttpRequest();
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         request.open('POST', 'devices/inner-fan/set-speed-percent')
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         request.send('value=' + encodeURIComponent(innerFanSlider.getValue()))
         request.onreadystatechange = (ev) => {
             console.log(ev);
