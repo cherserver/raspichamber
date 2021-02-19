@@ -92,7 +92,7 @@ func (s *server) rpiFanSetSpeedHandler(w http.ResponseWriter, r *http.Request) {
 	s.fanSetSpeedHandler(w, r, s.rpiFan)
 }
 
-func (s *server) fanSetSpeedHandler(w http.ResponseWriter, r *http.Request, fan software.InnerFan) {
+func (s *server) fanSetSpeedHandler(w http.ResponseWriter, r *http.Request, fan software.Fan) {
 	if r.Method != "POST" {
 		http.Error(w, "Method is not supported", http.StatusMethodNotAllowed)
 		return
@@ -109,6 +109,7 @@ func (s *server) fanSetSpeedHandler(w http.ResponseWriter, r *http.Request, fan 
 		http.Error(w, fmt.Sprintf("Invalid 'value' field: %v", err), http.StatusBadRequest)
 	}
 
+	log.Printf("set fan percent '%v'", percent)
 	err = fan.SetSpeedPercent(percent)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to set speed percent: %v", err), http.StatusInternalServerError)
