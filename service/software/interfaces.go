@@ -2,6 +2,8 @@ package software
 
 type Fan interface {
 	RPM() uint64
+	SpeedPercent() uint8
+
 	SetSpeedPercent(value uint8) error
 }
 
@@ -34,14 +36,24 @@ type DryerThermometer interface {
 	Thermometer
 }
 
+type DryerState uint8
+
+const (
+	DryerStateOff         DryerState = 0
+	DryerStateOn55Degrees DryerState = 1
+	DryerStateOn60Degrees DryerState = 2
+	DryerStateOn65Degrees DryerState = 3
+	DryerStateOn70Degrees DryerState = 4
+)
+
 type DryerControl interface {
-	SwitchOff()
-	Switch55Degrees()
-	Switch60Degrees()
-	Switch65Degrees()
-	Switch70Degrees()
+	State() DryerState
+
+	SetState(state DryerState)
 }
 
 type DryerHatch interface {
+	Angle() uint8
+
 	SetAngle(angle uint8) error
 }

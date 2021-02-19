@@ -25,7 +25,32 @@ type DryerControl struct {
 	modeButton  *button
 
 	isSwitchedOn bool
-	stateLock    sync.Mutex
+	state        software.DryerState
+	stateLock    sync.RWMutex
+}
+
+func (c *DryerControl) State() software.DryerState {
+	c.stateLock.RLock()
+	defer c.stateLock.RUnlock()
+
+	return c.state
+}
+
+func (c *DryerControl) SetState(state software.DryerState) {
+	switch state {
+	case software.DryerStateOff:
+		c.SwitchOff()
+	case software.DryerStateOn55Degrees:
+		c.Switch55Degrees()
+	case software.DryerStateOn60Degrees:
+		c.Switch60Degrees()
+	case software.DryerStateOn65Degrees:
+		c.Switch65Degrees()
+	case software.DryerStateOn70Degrees:
+		c.Switch70Degrees()
+	default:
+		panic(fmt.Sprintf("Try to set unknown dryer state '%v'", state))
+	}
 }
 
 func NewDryerControl(subsystems *PinSubsystems) *DryerControl {
@@ -34,6 +59,8 @@ func NewDryerControl(subsystems *PinSubsystems) *DryerControl {
 		minusButton: newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterButton2Pin)),
 		plusButton:  newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterButton3Pin)),
 		modeButton:  newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterButton4Pin)),
+
+		state: software.DryerStateOff,
 	}
 }
 
@@ -69,19 +96,19 @@ func (c *DryerControl) Stop() {
 }
 
 func (c *DryerControl) unsafeSwitchOff() {
-	if !c.isSwitchedOn {
+	if c.state == software.DryerStateOff {
 		return
 	}
 
 	c.powerButton.Press()
-	c.isSwitchedOn = false
+	c.state = software.DryerStateOff
 }
 
 func (c *DryerControl) unsafeReset() {
 	c.unsafeSwitchOff()
 
 	c.powerButton.Press()
-	c.isSwitchedOn = true
+	c.state = software.DryerStateOn55Degrees
 }
 
 func (c *DryerControl) SwitchOff() {
@@ -103,7 +130,9 @@ func (c *DryerControl) Switch60Degrees() {
 	defer c.stateLock.Unlock()
 
 	c.unsafeReset()
+
 	c.plusButton.PressTimes(1)
+	c.state = software.DryerStateOn60Degrees
 }
 
 func (c *DryerControl) Switch65Degrees() {
@@ -112,6 +141,7 @@ func (c *DryerControl) Switch65Degrees() {
 
 	c.unsafeReset()
 	c.plusButton.PressTimes(2)
+	c.state = software.DryerStateOn65Degrees
 }
 
 func (c *DryerControl) Switch70Degrees() {
@@ -120,6 +150,7 @@ func (c *DryerControl) Switch70Degrees() {
 
 	c.unsafeReset()
 	c.plusButton.PressTimes(3)
+	c.state = software.DryerStateOn70Degrees
 }
 
 type button struct {

@@ -2,6 +2,7 @@ package devices
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel/pins"
@@ -34,6 +35,9 @@ func NewRPiFan(subsystems *PinSubsystems) *Fan {
 type Fan struct {
 	pwmPin   lowlevel.PwmPin
 	tachoPin lowlevel.RpmSensorPin
+
+	speed      uint8
+	speedMutex sync.RWMutex
 }
 
 func newFan(
@@ -69,5 +73,22 @@ func (f *Fan) RPM() uint64 {
 }
 
 func (f *Fan) SetSpeedPercent(value uint8) error {
-	return f.SetSpeedPercent(value)
+	f.speedMutex.Lock()
+	defer f.speedMutex.Unlock()
+
+	err := f.pwmPin.SetPwmPercent(value)
+	if err != nil {
+		return err
+	}
+
+	f.speed = value
+
+	return nil
+}
+
+func (f *Fan) SpeedPercent() uint8 {
+	f.speedMutex.RLock()
+	defer f.speedMutex.RUnlock()
+
+	return f.speed
 }
