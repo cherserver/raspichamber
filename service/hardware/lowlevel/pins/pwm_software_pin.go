@@ -36,7 +36,7 @@ func (p *pwmSoftwarePin) SetPwmPercent(value uint8) error {
 	}
 
 	pinVal := float32(value) / 100
-	data := fmt.Sprintf("%v=%v\n", p.pin, pinVal)
+	data := fmt.Sprintf("%v=%v\n", p.pin.GPIOIndex(), pinVal)
 	file, err := os.OpenFile("/dev/pi-blaster", os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		return err
