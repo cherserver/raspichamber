@@ -79,13 +79,15 @@
     innerFanSlider.root.addEventListener('MDCSlider:change', e => {
         setFanSpeedPercent('inner-fan', innerFanSlider.getValue());
     });
+
     const outerFanSlider = new mdc.slider.MDCSlider(document.querySelector('#outerFanSpeedSlider'));
     outerFanSlider.root.addEventListener('MDCSlider:change', e => {
-        setFanSpeedPercent('outer-fan', innerFanSlider.getValue());
+        setFanSpeedPercent('outer-fan', outerFanSlider.getValue());
     });
+
     const rpiFanSlider = new mdc.slider.MDCSlider(document.querySelector('#rpiFanSpeedSlider'));
     rpiFanSlider.root.addEventListener('MDCSlider:change', e => {
-        setFanSpeedPercent('rpi-fan', innerFanSlider.getValue());
+        setFanSpeedPercent('rpi-fan', rpiFanSlider.getValue());
     });
     
     async function setFanSpeedPercent(fanName, percent) {
