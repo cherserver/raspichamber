@@ -20,8 +20,8 @@ const (
 	OuterFanTachoNum  = 7
 
 	// RPi fan
-	RPiFanPwmGPIO = 9
-	RPiFanPwmNum  = 21
+	RPiFanPwmGPIO = 7
+	RPiFanPwmNum  = 26
 
 	RPiFanTachoGPIO = 1
 	RPiFanTachoNum  = 28
