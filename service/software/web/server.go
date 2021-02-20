@@ -114,7 +114,7 @@ func (s *server) fanSetSpeedHandler(w http.ResponseWriter, r *http.Request, fan 
 		http.Error(w, fmt.Sprintf("Invalid 'value' field: %v", err), http.StatusBadRequest)
 	}
 
-	log.Printf("set fan percent '%v'", percent)
+	log.Printf("set fan speed percent '%v'", percent)
 	err = fan.SetSpeedPercent(percent)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to set fan speed percent: %v", err), http.StatusInternalServerError)
@@ -132,6 +132,8 @@ func (s *server) dryerControlSetStateHandler(w http.ResponseWriter, r *http.Requ
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	log.Printf("set hatch control state '%v'", strVal)
 
 	switch strVal {
 	case "off":
@@ -167,7 +169,7 @@ func (s *server) dryerHatchSetAngleHandler(w http.ResponseWriter, r *http.Reques
 		http.Error(w, fmt.Sprintf("Invalid 'value' field: %v", err), http.StatusBadRequest)
 	}
 
-	log.Printf("set fan percent '%v'", angle)
+	log.Printf("set dryer hatch angle '%v'", angle)
 	err = s.dryerHatch.SetAngle(angle)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to set dryer hatch angle: %v", err), http.StatusInternalServerError)

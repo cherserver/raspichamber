@@ -12,6 +12,16 @@ import (
 
 var _ software.DryerHatch = &DryerHatch{}
 
+const (
+	angle0PWMValue  = 15 // lower
+	angle90PWMValue = 58 // upper
+	angleStep       = float32(angle90PWMValue-angle0PWMValue) / 90
+)
+
+func angleToPWM(angle uint8) uint8 {
+	return angle0PWMValue + uint8(float32(angle)*angleStep)
+}
+
 type DryerHatch struct {
 	pin lowlevel.PwmPin
 
@@ -46,7 +56,7 @@ func (s *DryerHatch) SetAngle(angle uint8) error {
 	s.angleMutex.Lock()
 	defer s.angleMutex.Unlock()
 
-	err := s.pin.SetPwmPercent(angle)
+	err := s.pin.SetPwmPercent(angleToPWM(angle))
 	if err != nil {
 		return err
 	}
