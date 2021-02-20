@@ -74,7 +74,7 @@ func (s *server) Stop() {
 func (s *server) statusHandler(w http.ResponseWriter, r *http.Request) {
 	_ = r
 
-	statusData, err := json.Marshal(s.devicesStatus())
+	statusData, err := json.Marshal(*s.devicesStatus())
 	if err != nil {
 		http.Error(w, fmt.Sprintf("failed to encode status: %v", err), http.StatusInternalServerError)
 		return
