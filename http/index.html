@@ -122,7 +122,7 @@
 
     const dryerHatchSlider = new mdc.slider.MDCSlider(document.querySelector('#dryerHatchAngleSlider'));
     dryerHatchSlider.root.addEventListener('MDCSlider:change', e => {
-        setDryerHatchAngle(rpiFanSlider.getValue());
+        setDryerHatchAngle(dryerHatchSlider.getValue());
     });
 
     updateStatus();
