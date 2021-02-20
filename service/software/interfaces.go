@@ -1,7 +1,7 @@
 package software
 
 type Fan interface {
-	RPM() uint64
+	RPM() uint32
 	SpeedPercent() uint8
 
 	SetSpeedPercent(value uint8) error
@@ -36,14 +36,14 @@ type DryerThermometer interface {
 	Thermometer
 }
 
-type DryerState uint8
+type DryerState string
 
 const (
-	DryerStateOff         DryerState = 0
-	DryerStateOn55Degrees DryerState = 1
-	DryerStateOn60Degrees DryerState = 2
-	DryerStateOn65Degrees DryerState = 3
-	DryerStateOn70Degrees DryerState = 4
+	DryerStateOff         DryerState = "off"
+	DryerStateOn55Degrees DryerState = "on55degrees"
+	DryerStateOn60Degrees DryerState = "on60degrees"
+	DryerStateOn65Degrees DryerState = "on65degrees"
+	DryerStateOn70Degrees DryerState = "on70degrees"
 )
 
 type DryerControl interface {

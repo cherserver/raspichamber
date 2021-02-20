@@ -66,6 +66,7 @@ func (f *rpmSensorPin) Stop() {
 }
 
 func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
+	_ = evt
 	f.counter.Incr(1)
 	/*log.Printf("event:%3d %-7s %s (%s)\n",
 	evt.Offset,
@@ -74,6 +75,6 @@ func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
 	evt.Timestamp)*/
 }
 
-func (f *rpmSensorPin) RPM() (uint64, error) {
-	return uint64(f.counter.Rate()), nil
+func (f *rpmSensorPin) RPM() (uint32, error) {
+	return uint32(f.counter.Rate()), nil
 }

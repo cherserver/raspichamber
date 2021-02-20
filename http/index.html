@@ -58,6 +58,36 @@
                 <div class="mdc-slider__thumb-knob"></div>
             </div>
         </div>
+        <div id="dryerHatchAngleSlider" class="mdc-slider mdc-slider--discrete mdc-slider--tick-marks">
+            <input id="dryerHatchAngle" class="mdc-slider__input" type="range" min="0" max="90" value="0" name="volume" step="1" aria-label="Dryer hatch angle">
+            <div class="mdc-slider__track">
+                <div class="mdc-slider__track--inactive"></div>
+                <div class="mdc-slider__track--active">
+                    <div class="mdc-slider__track--active_fill"></div>
+                </div>
+                <div class="mdc-slider__tick-marks">
+                    <div class="mdc-slider__tick-mark--active"></div>
+                    <div class="mdc-slider__tick-mark--active"></div>
+                    <div class="mdc-slider__tick-mark--active"></div>
+                    <div class="mdc-slider__tick-mark--active"></div>
+                    <div class="mdc-slider__tick-mark--active"></div>
+                    <div class="mdc-slider__tick-mark--active"></div>
+                    <div class="mdc-slider__tick-mark--inactive"></div>
+                    <div class="mdc-slider__tick-mark--inactive"></div>
+                    <div class="mdc-slider__tick-mark--inactive"></div>
+                    <div class="mdc-slider__tick-mark--inactive"></div>
+                    <div class="mdc-slider__tick-mark--inactive"></div>
+                </div>
+            </div>
+            <div class="mdc-slider__thumb">
+                <div class="mdc-slider__value-indicator-container" aria-hidden="true">
+                    <div class="mdc-slider__value-indicator">
+                        <span class="mdc-slider__value-indicator-text">0</span>
+                    </div>
+                </div>
+                <div class="mdc-slider__thumb-knob"></div>
+            </div>
+        </div>
     </form>
 
     <div class="mdc-snackbar">
@@ -89,6 +119,24 @@
     rpiFanSlider.root.addEventListener('MDCSlider:change', e => {
         setFanSpeedPercent('rpi-fan', rpiFanSlider.getValue());
     });
+
+    const dryerHatchSlider = new mdc.slider.MDCSlider(document.querySelector('#dryerHatchAngleSlider'));
+    dryerHatchSlider.root.addEventListener('MDCSlider:change', e => {
+        setDryerHatchAngle(rpiFanSlider.getValue());
+    });
+
+    updateStatus();
+
+    const updateInterval=1000
+
+    let tid = setTimeout(autoUpdateStatus, updateInterval);
+    function autoUpdateStatus() {
+        // do some stuff...
+        tid = setTimeout(autoUpdateStatus, updateInterval); // repeat myself
+    }
+    function abortStatusUpdate() {
+        clearTimeout(tid);
+    }
     
     async function setFanSpeedPercent(fanName, percent) {
         const request = new Request(
@@ -105,6 +153,60 @@
         if (!response.ok) {
             showError('Failed to set "' + fanName + '" speed: ' + resultText);
         }
+    }
+
+    async function setDryerHatchAngle(angle) {
+        const request = new Request(
+            '/devices/dryer-hatch/set-angle',
+            {
+                method: 'POST',
+                headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
+                body: 'value='+ encodeURIComponent(angle),
+            }
+        );
+
+        const response = await fetch(request);
+        const resultText = await response.text();
+        if (!response.ok) {
+            showError('Failed to set dryer hatch angle: ' + resultText);
+        }
+    }
+
+    async function setDryerState(state) {
+        const request = new Request(
+            '/devices/dryer-control/set-state',
+            {
+                method: 'POST',
+                headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
+                body: 'value='+ encodeURIComponent(state),
+            }
+        );
+
+        const response = await fetch(request);
+        const resultText = await response.text();
+        if (!response.ok) {
+            showError('Failed to set dryer state: ' + resultText);
+        }
+    }
+
+    async function getStatus() {
+        const request = new Request(
+            '/devices', { method: 'GET' }
+        );
+
+        const response = await fetch(request);
+        const status = await response.json();
+        if (!response.ok) {
+            showError('Failed to get status');
+        }
+
+        return status
+    }
+
+    function updateStatus() {
+        getStatus().then(status => {
+            console.log(status)
+        });
     }
 
     function showError(errorText) {

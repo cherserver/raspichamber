@@ -68,8 +68,13 @@ func (f *Fan) Stop() {
 	f.pwmPin.Stop()
 }
 
-func (f *Fan) RPM() uint64 {
-	return f.RPM()
+func (f *Fan) RPM() uint32 {
+	val, err := f.tachoPin.RPM()
+	if err != nil {
+		return 0
+	}
+
+	return val
 }
 
 func (f *Fan) SetSpeedPercent(value uint8) error {
