@@ -80,6 +80,7 @@ func (s *server) statusHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Printf("status: %s", statusData)
 	w.Header().Set("Content-Type", "application/json")
 	_, _ = w.Write(statusData)
 }
