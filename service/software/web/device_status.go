@@ -35,8 +35,8 @@ type devices struct {
 	dryerHatch       dryerHatch
 }
 
-type devicesStatus struct {
-	currentSession uuid.UUID
+type DevicesStatus struct {
+	CurrentSession uuid.UUID
 
 	devices devices
 }

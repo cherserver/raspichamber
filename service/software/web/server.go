@@ -223,9 +223,9 @@ func (s *server) parseAngle(value string) (uint8, error) {
 	return uint8(val), nil
 }
 
-func (s *server) devicesStatus() *devicesStatus {
-	return &devicesStatus{
-		currentSession: s.currentSessionId,
+func (s *server) devicesStatus() *DevicesStatus {
+	return &DevicesStatus{
+		CurrentSession: s.currentSessionId,
 		devices: devices{
 			innerFan: fan{
 				speedPercent: s.innerFan.SpeedPercent(),
