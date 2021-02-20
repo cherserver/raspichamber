@@ -226,36 +226,36 @@ func (s *server) parseAngle(value string) (uint8, error) {
 func (s *server) devicesStatus() *DevicesStatus {
 	return &DevicesStatus{
 		CurrentSession: s.currentSessionId,
-		devices: devices{
-			innerFan: fan{
-				speedPercent: s.innerFan.SpeedPercent(),
-				rpm:          s.innerFan.RPM(),
+		Devices: Devices{
+			InnerFan: Fan{
+				SpeedPercent: s.innerFan.SpeedPercent(),
+				RPM:          s.innerFan.RPM(),
 			},
-			outerFan: fan{
-				speedPercent: s.outerFan.SpeedPercent(),
-				rpm:          s.outerFan.RPM(),
+			OuterFan: Fan{
+				SpeedPercent: s.outerFan.SpeedPercent(),
+				RPM:          s.outerFan.RPM(),
 			},
-			rpiFan: fan{
-				speedPercent: s.rpiFan.SpeedPercent(),
-				rpm:          s.rpiFan.RPM(),
+			RPiFan: Fan{
+				SpeedPercent: s.rpiFan.SpeedPercent(),
+				RPM:          s.rpiFan.RPM(),
 			},
-			innerThermometer: thermometer{
-				temperature: s.innerThermometer.Temperature(),
-				humidity:    s.innerThermometer.Humidity(),
+			InnerThermometer: Thermometer{
+				Temperature: s.innerThermometer.Temperature(),
+				Humidity:    s.innerThermometer.Humidity(),
 			},
-			outerThermometer: thermometer{
-				temperature: s.outerThermometer.Temperature(),
-				humidity:    s.outerThermometer.Humidity(),
+			OuterThermometer: Thermometer{
+				Temperature: s.outerThermometer.Temperature(),
+				Humidity:    s.outerThermometer.Humidity(),
 			},
-			dryerThermometer: thermometer{
-				temperature: s.dryerThermometer.Temperature(),
-				humidity:    s.dryerThermometer.Humidity(),
+			DryerThermometer: Thermometer{
+				Temperature: s.dryerThermometer.Temperature(),
+				Humidity:    s.dryerThermometer.Humidity(),
 			},
-			dryerControl: dryerControl{
-				state: s.dryerControl.State(),
+			DryerControl: DryerControl{
+				State: s.dryerControl.State(),
 			},
-			dryerHatch: dryerHatch{
-				angle: s.dryerHatch.Angle(),
+			DryerHatch: DryerHatch{
+				Angle: s.dryerHatch.Angle(),
 			},
 		},
 	}

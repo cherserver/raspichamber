@@ -6,37 +6,37 @@ import (
 	"github.com/cherserver/raspichamber/service/software"
 )
 
-type fan struct {
-	speedPercent uint8
-	rpm          uint32
+type Fan struct {
+	SpeedPercent uint8
+	RPM          uint32
 }
 
-type thermometer struct {
-	temperature float32
-	humidity    float32
+type Thermometer struct {
+	Temperature float32
+	Humidity    float32
 }
 
-type dryerControl struct {
-	state software.DryerState
+type DryerControl struct {
+	State software.DryerState
 }
 
-type dryerHatch struct {
-	angle uint8
+type DryerHatch struct {
+	Angle uint8
 }
 
-type devices struct {
-	innerFan         fan
-	outerFan         fan
-	rpiFan           fan
-	innerThermometer thermometer
-	outerThermometer thermometer
-	dryerThermometer thermometer
-	dryerControl     dryerControl
-	dryerHatch       dryerHatch
+type Devices struct {
+	InnerFan         Fan
+	OuterFan         Fan
+	RPiFan           Fan
+	InnerThermometer Thermometer
+	OuterThermometer Thermometer
+	DryerThermometer Thermometer
+	DryerControl     DryerControl
+	DryerHatch       DryerHatch
 }
 
 type DevicesStatus struct {
 	CurrentSession uuid.UUID
 
-	devices devices
+	Devices Devices
 }
