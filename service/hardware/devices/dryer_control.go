@@ -12,8 +12,8 @@ import (
 
 const (
 	// TODO: move to config
-	pressDuration  = 1000 * time.Millisecond
-	releaseTimeout = 1000 * time.Millisecond
+	pressDuration  = 200 * time.Millisecond
+	releaseTimeout = 100 * time.Millisecond
 )
 
 var _ software.DryerControl = &DryerControl{}
@@ -40,6 +40,14 @@ func (c *DryerControl) SetState(state software.DryerState) {
 	switch state {
 	case software.DryerStateOff:
 		c.SwitchOff()
+	case software.DryerStateOn35Degrees:
+		c.Switch35Degrees()
+	case software.DryerStateOn40Degrees:
+		c.Switch40Degrees()
+	case software.DryerStateOn45Degrees:
+		c.Switch45Degrees()
+	case software.DryerStateOn50Degrees:
+		c.Switch50Degrees()
 	case software.DryerStateOn55Degrees:
 		c.Switch55Degrees()
 	case software.DryerStateOn60Degrees:
@@ -55,10 +63,10 @@ func (c *DryerControl) SetState(state software.DryerState) {
 
 func NewDryerControl(subsystems *PinSubsystems) *DryerControl {
 	return &DryerControl{
-		powerButton: newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterButton1Pin)),
-		minusButton: newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterButton2Pin)),
-		plusButton:  newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterButton3Pin)),
-		modeButton:  newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterButton4Pin)),
+		powerButton: newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterSwitchButtonPin)),
+		minusButton: newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterMinusButtonPin)),
+		plusButton:  newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterPlusButtonPin)),
+		modeButton:  newButton(pins.NewSwitchPin(subsystems.NativePinSubsystem, lowlevel.HeaterModeButtonPin)),
 
 		state: software.DryerStateOff,
 	}
@@ -108,7 +116,8 @@ func (c *DryerControl) unsafeReset() {
 	c.unsafeSwitchOff()
 
 	c.powerButton.Press()
-	c.state = software.DryerStateOn55Degrees
+	c.modeButton.Press()
+	c.state = software.DryerStateOn35Degrees
 }
 
 func (c *DryerControl) SwitchOff() {
@@ -118,11 +127,51 @@ func (c *DryerControl) SwitchOff() {
 	c.unsafeSwitchOff()
 }
 
+func (c *DryerControl) Switch35Degrees() {
+	c.stateLock.Lock()
+	defer c.stateLock.Unlock()
+
+	c.unsafeReset()
+}
+
+func (c *DryerControl) Switch40Degrees() {
+	c.stateLock.Lock()
+	defer c.stateLock.Unlock()
+
+	c.unsafeReset()
+
+	c.plusButton.PressTimes(1)
+	c.state = software.DryerStateOn40Degrees
+}
+
+func (c *DryerControl) Switch45Degrees() {
+	c.stateLock.Lock()
+	defer c.stateLock.Unlock()
+
+	c.unsafeReset()
+
+	c.plusButton.PressTimes(2)
+	c.state = software.DryerStateOn45Degrees
+}
+
+func (c *DryerControl) Switch50Degrees() {
+	c.stateLock.Lock()
+	defer c.stateLock.Unlock()
+
+	c.unsafeReset()
+
+	c.plusButton.PressTimes(3)
+	c.state = software.DryerStateOn50Degrees
+}
+
 func (c *DryerControl) Switch55Degrees() {
 	c.stateLock.Lock()
 	defer c.stateLock.Unlock()
 
 	c.unsafeReset()
+
+	c.plusButton.PressTimes(4)
+	c.state = software.DryerStateOn55Degrees
 }
 
 func (c *DryerControl) Switch60Degrees() {
@@ -131,7 +180,7 @@ func (c *DryerControl) Switch60Degrees() {
 
 	c.unsafeReset()
 
-	c.plusButton.PressTimes(1)
+	c.plusButton.PressTimes(5)
 	c.state = software.DryerStateOn60Degrees
 }
 
@@ -140,7 +189,7 @@ func (c *DryerControl) Switch65Degrees() {
 	defer c.stateLock.Unlock()
 
 	c.unsafeReset()
-	c.plusButton.PressTimes(2)
+	c.plusButton.PressTimes(6)
 	c.state = software.DryerStateOn65Degrees
 }
 
@@ -149,7 +198,7 @@ func (c *DryerControl) Switch70Degrees() {
 	defer c.stateLock.Unlock()
 
 	c.unsafeReset()
-	c.plusButton.PressTimes(3)
+	c.plusButton.PressTimes(7)
 	c.state = software.DryerStateOn70Degrees
 }
 

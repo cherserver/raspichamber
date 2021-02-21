@@ -40,6 +40,10 @@ type DryerState string
 
 const (
 	DryerStateOff         DryerState = "off"
+	DryerStateOn35Degrees DryerState = "on35degrees"
+	DryerStateOn40Degrees DryerState = "on40degrees"
+	DryerStateOn45Degrees DryerState = "on45degrees"
+	DryerStateOn50Degrees DryerState = "on50degrees"
 	DryerStateOn55Degrees DryerState = "on55degrees"
 	DryerStateOn60Degrees DryerState = "on60degrees"
 	DryerStateOn65Degrees DryerState = "on65degrees"

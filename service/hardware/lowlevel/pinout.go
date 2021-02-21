@@ -41,17 +41,17 @@ const (
 	DryerServoNum  = 5
 
 	// Heater buttons
-	HeaterButton1GPIO = 26
-	HeaterButton1Num  = 37
+	HeaterSwitchButtonGPIO = 21
+	HeaterSwitchButtonNum  = 40
 
-	HeaterButton2GPIO = 16
-	HeaterButton2Num  = 36
+	HeaterModeButtonGPIO = 26
+	HeaterModeButtonNum  = 37
 
-	HeaterButton3GPIO = 20
-	HeaterButton3Num  = 38
+	HeaterPlusButtonGPIO = 16
+	HeaterPlusButtonNum  = 36
 
-	HeaterButton4GPIO = 21
-	HeaterButton4Num  = 40
+	HeaterMinusButtonGPIO = 20
+	HeaterMinusButtonNum  = 38
 )
 
 type pin struct {
@@ -139,27 +139,27 @@ var (
 		name:      "dryer_servo_pin",
 	}
 
-	HeaterButton1Pin = pin{
-		j8Index:   HeaterButton1Num,
-		gpioIndex: HeaterButton1GPIO,
-		name:      "heater_button_1_pin",
+	HeaterSwitchButtonPin = pin{
+		j8Index:   HeaterSwitchButtonNum,
+		gpioIndex: HeaterSwitchButtonGPIO,
+		name:      "heater_switch_button_pin",
 	}
 
-	HeaterButton2Pin = pin{
-		j8Index:   HeaterButton2Num,
-		gpioIndex: HeaterButton2GPIO,
-		name:      "heater_button_2_pin",
+	HeaterModeButtonPin = pin{
+		j8Index:   HeaterModeButtonNum,
+		gpioIndex: HeaterModeButtonGPIO,
+		name:      "heater_mode_button_pin",
 	}
 
-	HeaterButton3Pin = pin{
-		j8Index:   HeaterButton3Num,
-		gpioIndex: HeaterButton3GPIO,
-		name:      "heater_button_3_pin",
+	HeaterPlusButtonPin = pin{
+		j8Index:   HeaterPlusButtonNum,
+		gpioIndex: HeaterPlusButtonGPIO,
+		name:      "heater_plus_button_pin",
 	}
 
-	HeaterButton4Pin = pin{
-		j8Index:   HeaterButton4Num,
-		gpioIndex: HeaterButton4GPIO,
-		name:      "heater_button_4_pin",
+	HeaterMinusButtonPin = pin{
+		j8Index:   HeaterMinusButtonNum,
+		gpioIndex: HeaterMinusButtonGPIO,
+		name:      "heater_minus_button_pin",
 	}
 )

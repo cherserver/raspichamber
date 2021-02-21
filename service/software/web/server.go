@@ -138,6 +138,14 @@ func (s *server) dryerControlSetStateHandler(w http.ResponseWriter, r *http.Requ
 	switch strVal {
 	case "off":
 		s.dryerControl.SetState(software.DryerStateOff)
+	case "on35degrees":
+		s.dryerControl.SetState(software.DryerStateOn35Degrees)
+	case "on40degrees":
+		s.dryerControl.SetState(software.DryerStateOn40Degrees)
+	case "on45degrees":
+		s.dryerControl.SetState(software.DryerStateOn45Degrees)
+	case "on50degrees":
+		s.dryerControl.SetState(software.DryerStateOn50Degrees)
 	case "on55degrees":
 		s.dryerControl.SetState(software.DryerStateOn55Degrees)
 	case "on60degrees":
@@ -147,7 +155,11 @@ func (s *server) dryerControlSetStateHandler(w http.ResponseWriter, r *http.Requ
 	case "on70degrees":
 		s.dryerControl.SetState(software.DryerStateOn70Degrees)
 	default:
-		http.Error(w, "value must be state - [off, on55degrees, on60degrees, on65degrees, on70degrees]", http.StatusBadRequest)
+		http.Error(
+			w,
+			"value must be state - [off, on35degrees, on40degrees, on45degrees, on50degrees, on55degrees, on60degrees, on65degrees, on70degrees]",
+			http.StatusBadRequest,
+		)
 		return
 	}
 }
