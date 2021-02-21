@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>RasPiChamber</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,400,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700">
     <link rel="stylesheet" href="framework/material-components-web.css" />
 </head>
-<body>
+<body class="mdc-typography">
     <form>
         <div id="inner-fan-speed-slider" class="mdc-slider mdc-slider--discrete">
             <input id="innerFanSpeed" class="mdc-slider__input" type="range" min="0" max="100" value="0" name="fanSpeed" step="1" aria-label="Inner fan speed">
@@ -67,15 +71,6 @@
                 </div>
                 <div class="mdc-slider__tick-marks">
                     <div class="mdc-slider__tick-mark--active"></div>
-                    <div class="mdc-slider__tick-mark--active"></div>
-                    <div class="mdc-slider__tick-mark--active"></div>
-                    <div class="mdc-slider__tick-mark--active"></div>
-                    <div class="mdc-slider__tick-mark--active"></div>
-                    <div class="mdc-slider__tick-mark--active"></div>
-                    <div class="mdc-slider__tick-mark--inactive"></div>
-                    <div class="mdc-slider__tick-mark--inactive"></div>
-                    <div class="mdc-slider__tick-mark--inactive"></div>
-                    <div class="mdc-slider__tick-mark--inactive"></div>
                     <div class="mdc-slider__tick-mark--inactive"></div>
                 </div>
             </div>
@@ -86,6 +81,36 @@
                     </div>
                 </div>
                 <div class="mdc-slider__thumb-knob"></div>
+            </div>
+        </div>
+        <div>
+            <div id="dryer-switch" class="mdc-switch">
+                <div class="mdc-switch__track"></div>
+                <div class="mdc-switch__thumb-underlay">
+                    <div class="mdc-switch__thumb"></div>
+                    <input type="checkbox" id="dryer-switch-checkbox" class="mdc-switch__native-control" role="switch" aria-checked="false">
+                </div>
+            </div>
+            <div id="dryer-state-slider" class="mdc-slider mdc-slider--discrete mdc-slider--tick-marks">
+                <input id="dryer-state" class="mdc-slider__input" type="range" min="55" max="70" value="55" name="volume" step="5" aria-label="Dryer temperature">
+                <div class="mdc-slider__track">
+                    <div class="mdc-slider__track--inactive"></div>
+                    <div class="mdc-slider__track--active">
+                        <div class="mdc-slider__track--active_fill"></div>
+                    </div>
+                    <div class="mdc-slider__tick-marks">
+                        <div class="mdc-slider__tick-mark--active"></div>
+                        <div class="mdc-slider__tick-mark--inactive"></div>
+                    </div>
+                </div>
+                <div class="mdc-slider__thumb">
+                    <div class="mdc-slider__value-indicator-container" aria-hidden="true">
+                        <div class="mdc-slider__value-indicator">
+                            <span class="mdc-slider__value-indicator-text">55</span>
+                        </div>
+                    </div>
+                    <div class="mdc-slider__thumb-knob"></div>
+                </div>
             </div>
         </div>
 
@@ -262,13 +287,13 @@
         </p>
     </form>
 
-    <div class="mdc-snackbar">
+    <div id="error-snackbar" class="mdc-snackbar">
         <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
             <div class="mdc-snackbar__label" aria-atomic="false">
                 error text
             </div>
             <div class="mdc-snackbar__actions" aria-atomic="true">
-                <button class="mdc-icon-button mdc-snackbar__dismiss material-icons" title="Dismiss">close</button>
+                <button id="error-snackbar-dismiss" class="mdc-icon-button mdc-snackbar__dismiss material-icons" title="Dismiss">close</button>
             </div>
         </div>
     </div>
@@ -277,7 +302,7 @@
     // TODO: 'fetch' error handling with try/catch
 
     mdc.autoInit();
-    const errorBar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
+    const errorBar = new mdc.snackbar.MDCSnackbar(document.querySelector('#error-snackbar'));
 
     const innerFanSlider = new mdc.slider.MDCSlider(document.querySelector('#inner-fan-speed-slider'));
     innerFanSlider.root.addEventListener('MDCSlider:change', e => {
@@ -320,13 +345,25 @@
     const dryerStateField = new mdc.textField.MDCTextField(document.querySelector('#dryer-state-field'));
     const dryerHatchField = new mdc.textField.MDCTextField(document.querySelector('#dryer-hatch-field'));
 
+    const dryerStateSlider = new mdc.slider.MDCSlider(document.querySelector('#dryer-state-slider'));
+    dryerStateSlider.root.addEventListener('MDCSlider:change', e => {
+        setDryerState();
+    });
+
+    const dryerSwitch = new mdc.switchControl.MDCSwitch(document.querySelector('#dryer-switch'));
+    const dryerSwitchCheckBox = document.querySelector('#dryer-switch-checkbox');
+    dryerSwitchCheckBox.addEventListener('change', _ => {
+        dryerStateSlider.setDisabled(!dryerSwitch.checked);
+        setDryerState();
+    });
+
     updateStatus();
 
     const updateInterval=1000
 
     let tid = setTimeout(autoUpdateStatus, updateInterval);
     function autoUpdateStatus() {
-        updateStatus();
+        //updateStatus();
 
         tid = setTimeout(autoUpdateStatus, updateInterval); // repeat myself
     }
@@ -345,9 +382,8 @@
         );
 
         const response = await fetch(request);
-        const resultText = await response.text();
         if (!response.ok) {
-            showError('Failed to set "' + fanName + '" speed: ' + resultText);
+            showError('Failed to set "' + fanName + '" speed: ' + response.statusText);
         }
     }
 
@@ -362,13 +398,19 @@
         );
 
         const response = await fetch(request);
-        const resultText = await response.text();
         if (!response.ok) {
-            showError('Failed to set dryer hatch angle: ' + resultText);
+            showError('Failed to set dryer hatch angle: ' + response.statusText);
         }
     }
 
-    async function setDryerState(state) {
+    async function setDryerState() {
+        let state = 'off'
+        if (dryerSwitch.checked) {
+            state = 'on' + dryerStateSlider.getValue() + 'degrees';
+        }
+
+        console.log(state)
+
         const request = new Request(
             '/devices/dryer-control/set-state',
             {
@@ -379,9 +421,8 @@
         );
 
         const response = await fetch(request);
-        const resultText = await response.text();
         if (!response.ok) {
-            showError('Failed to set dryer state: ' + resultText);
+            showError('Failed to set dryer state: ' + response.statusText);
         }
     }
 
@@ -420,8 +461,6 @@
 
             updateDryerState(devices.dryer_control, dryerStateField);
             updateDryerHatch(devices.dryer_hatch, dryerHatchField);
-
-            console.log(status);
         });
     }
 
