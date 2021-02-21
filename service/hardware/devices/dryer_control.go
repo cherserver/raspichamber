@@ -12,8 +12,8 @@ import (
 
 const (
 	// TODO: move to config
-	pressDuration  = 500 * time.Millisecond
-	releaseTimeout = 100 * time.Millisecond
+	pressDuration  = 1000 * time.Millisecond
+	releaseTimeout = 1000 * time.Millisecond
 )
 
 var _ software.DryerControl = &DryerControl{}
