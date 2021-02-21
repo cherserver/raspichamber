@@ -12,7 +12,7 @@ import (
 
 const (
 	// TODO: move to config
-	pressDuration  = 200 * time.Millisecond
+	pressDuration  = 500 * time.Millisecond
 	releaseTimeout = 100 * time.Millisecond
 )
 
