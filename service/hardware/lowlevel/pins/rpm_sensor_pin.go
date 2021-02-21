@@ -42,7 +42,8 @@ func (f *rpmSensorPin) Init() error {
 
 	f.line, err = f.chip.RequestLine(f.hwPin,
 		gpiod.WithPullUp,
-		gpiod.WithBothEdges,
+		gpiod.WithRisingEdge,
+		gpiod.WithBiasDisabled,
 		gpiod.WithEventHandler(f.edgeEventHandler))
 	if err != nil {
 		return fmt.Errorf("failed to initialize pin '%v', failed to init GPIOD line: %w", f.pin, err)
