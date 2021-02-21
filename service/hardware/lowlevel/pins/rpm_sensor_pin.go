@@ -76,5 +76,5 @@ func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
 }
 
 func (f *rpmSensorPin) RPM() (uint32, error) {
-	return uint32(f.counter.Rate()), nil
+	return uint32(f.counter.Rate() / 2), nil
 }
