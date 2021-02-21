@@ -41,7 +41,7 @@ func (f *rpmSensorPin) Init() error {
 	}
 
 	f.line, err = f.chip.RequestLine(f.hwPin,
-		gpiod.WithPullUp,
+		gpiod.WithPullDown,
 		gpiod.WithRisingEdge,
 		gpiod.WithEventHandler(f.edgeEventHandler))
 	if err != nil {
