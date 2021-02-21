@@ -363,7 +363,7 @@
 
     let tid = setTimeout(autoUpdateStatus, updateInterval);
     function autoUpdateStatus() {
-        //updateStatus();
+        updateStatus();
 
         tid = setTimeout(autoUpdateStatus, updateInterval); // repeat myself
     }
