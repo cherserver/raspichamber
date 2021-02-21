@@ -7,7 +7,7 @@
 </head>
 <body>
     <form>
-        <div id="innerFanSpeedSlider" class="mdc-slider mdc-slider--discrete">
+        <div id="inner-fan-speed-slider" class="mdc-slider mdc-slider--discrete">
             <input id="innerFanSpeed" class="mdc-slider__input" type="range" min="0" max="100" value="0" name="fanSpeed" step="1" aria-label="Inner fan speed">
             <div class="mdc-slider__track">
                 <div class="mdc-slider__track--inactive"></div>
@@ -88,6 +88,178 @@
                 <div class="mdc-slider__thumb-knob"></div>
             </div>
         </div>
+
+        <p> INNER THERMOMETER
+            <label id="inner-temp-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="inner-temp-label-id">Temperature</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="inner-temp-label-id" value="00.0" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">°C</span>
+            </label>
+            <label id="inner-humidity-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="inner-humidity-label-id">Humidity</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="inner-humidity-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">%</span>
+            </label>
+        </p>
+
+        <p> OUTER THERMOMETER
+            <label id="outer-temp-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="outer-temp-label-id">Temperature</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="outer-temp-label-id" value="00.0" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">°C</span>
+            </label>
+            <label id="outer-humidity-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="outer-humidity-label-id">Humidity</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="outer-humidity-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">%</span>
+            </label>
+        </p>
+        <p> DRYER THERMOMETER
+            <label id="dryer-temp-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="dryer-temp-label-id">Temperature</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="dryer-temp-label-id" value="00.0" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">°C</span>
+            </label>
+            <label id="dryer-humidity-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="dryer-humidity-label-id">Humidity</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="dryer-humidity-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">%</span>
+            </label>
+        </p>
+
+        <p> INNER FAN
+            <label id="inner-fan-speed-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="inner-fan-speed-label-id">Speed</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="inner-fan-speed-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">%</span>
+            </label>
+            <label id="inner-fan-rpm-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="inner-fan-rpm-label-id">Rate</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="inner-fan-rpm-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">RPM</span>
+            </label>
+        </p>
+
+        <p> OUTER FAN
+            <label id="outer-fan-speed-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="outer-fan-speed-label-id">Speed</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="outer-fan-speed-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">%</span>
+            </label>
+            <label id="outer-fan-rpm-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="outer-fan-rpm-label-id">Rate</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="outer-fan-rpm-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">RPM</span>
+            </label>
+        </p>
+        <p> RPI FAN
+            <label id="rpi-fan-speed-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="rpi-fan-speed-label-id">Speed</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="rpi-fan-speed-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">%</span>
+            </label>
+            <label id="rpi-fan-rpm-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="rpi-fan-rpm-label-id">Rate</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="rpi-fan-rpm-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">RPM</span>
+            </label>
+        </p>
+
+        <p> DRYER
+            <label id="dryer-state-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="dryer-state-label-id">State</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="dryer-state-label-id" value="off" disabled>
+            </label>
+            <label id="dryer-hatch-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="dryer-hatch-label-id">Rate</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="dryer-hatch-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">°</span>
+            </label>
+        </p>
     </form>
 
     <div class="mdc-snackbar">
@@ -102,10 +274,12 @@
     </div>
 <script src="framework/material-components-web.js"></script>
 <script>
+    // TODO: 'fetch' error handling with try/catch
+
     mdc.autoInit();
     const errorBar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
-    const innerFanSlider = new mdc.slider.MDCSlider(document.querySelector('#innerFanSpeedSlider'));
+    const innerFanSlider = new mdc.slider.MDCSlider(document.querySelector('#inner-fan-speed-slider'));
     innerFanSlider.root.addEventListener('MDCSlider:change', e => {
         setFanSpeedPercent('inner-fan', innerFanSlider.getValue());
     });
@@ -125,13 +299,35 @@
         setDryerHatchAngle(dryerHatchSlider.getValue());
     });
 
+    const innerTempField = new mdc.textField.MDCTextField(document.querySelector('#inner-temp-field'));
+    const innerHumidityField = new mdc.textField.MDCTextField(document.querySelector('#inner-humidity-field'));
+
+    const outerTempField = new mdc.textField.MDCTextField(document.querySelector('#outer-temp-field'));
+    const outerHumidityField = new mdc.textField.MDCTextField(document.querySelector('#outer-humidity-field'));
+
+    const dryerTempField = new mdc.textField.MDCTextField(document.querySelector('#dryer-temp-field'));
+    const dryerHumidityField = new mdc.textField.MDCTextField(document.querySelector('#dryer-humidity-field'));
+
+    const innerFanSpeedField = new mdc.textField.MDCTextField(document.querySelector('#inner-fan-speed-field'));
+    const innerFanRPMField = new mdc.textField.MDCTextField(document.querySelector('#inner-fan-rpm-field'));
+
+    const outerFanSpeedField = new mdc.textField.MDCTextField(document.querySelector('#outer-fan-speed-field'));
+    const outerFanRPMField = new mdc.textField.MDCTextField(document.querySelector('#outer-fan-rpm-field'));
+
+    const rpiFanSpeedField = new mdc.textField.MDCTextField(document.querySelector('#rpi-fan-speed-field'));
+    const rpiFanRPMField = new mdc.textField.MDCTextField(document.querySelector('#rpi-fan-rpm-field'));
+
+    const dryerStateField = new mdc.textField.MDCTextField(document.querySelector('#dryer-state-field'));
+    const dryerHatchField = new mdc.textField.MDCTextField(document.querySelector('#dryer-hatch-field'));
+
     updateStatus();
 
     const updateInterval=1000
 
     let tid = setTimeout(autoUpdateStatus, updateInterval);
     function autoUpdateStatus() {
-        // do some stuff...
+        updateStatus();
+
         tid = setTimeout(autoUpdateStatus, updateInterval); // repeat myself
     }
     function abortStatusUpdate() {
@@ -195,18 +391,96 @@
         );
 
         const response = await fetch(request);
-        const status = await response.json();
         if (!response.ok) {
-            showError('Failed to get status');
+            showError('Failed to get status: ' + response.statusText);
+            return null;
         }
 
-        return status
+        return await response.json()
     }
 
     function updateStatus() {
         getStatus().then(status => {
-            console.log(status)
+            if (status == null) {
+                return;
+            }
+
+            const devices = status.devices;
+            if (devices === undefined) {
+                return;
+            }
+
+            updateThermometer(devices.inner_thermometer, innerTempField, innerHumidityField);
+            updateThermometer(devices.outer_thermometer, outerTempField, outerHumidityField);
+            updateThermometer(devices.dryer_thermometer, dryerTempField, dryerHumidityField);
+
+            updateFan(devices.inner_fan, innerFanSpeedField, innerFanRPMField);
+            updateFan(devices.outer_fan, outerFanSpeedField, outerFanRPMField);
+            updateFan(devices.rpi_fan, rpiFanSpeedField, rpiFanRPMField);
+
+            updateDryerState(devices.dryer_control, dryerStateField);
+            updateDryerHatch(devices.dryer_hatch, dryerHatchField);
+
+            console.log(status);
         });
+    }
+
+    function updateThermometer(thermometer, tempField, humidityField) {
+        if (thermometer === undefined) {
+            return;
+        }
+
+        const temp = thermometer.temperature;
+        if (temp !== undefined) {
+            tempField.setValue(temp);
+        }
+
+        const hum = thermometer.humidity;
+        if (hum !== undefined) {
+            humidityField.setValue(hum);
+        }
+    }
+
+    function updateFan(fan, speedField, rpmField) {
+        if (fan === undefined) {
+            return;
+        }
+
+        const speed = fan.speed_percent;
+        if (speed !== undefined) {
+            speedField.setValue(speed);
+        }
+
+        const rpm = fan.rpm;
+        if (rpm !== undefined) {
+            rpmField.setValue(rpm);
+        }
+    }
+
+    function updateDryerState(dryerControl, dryerStateField) {
+        if (dryerControl === undefined) {
+            return;
+        }
+
+        const state = dryerControl.state;
+        if (state === undefined) {
+            return;
+        }
+
+        dryerStateField.setValue(state);
+    }
+
+    function updateDryerHatch(dryerHatch, dryerHatchField) {
+        if (dryerHatch === undefined) {
+            return;
+        }
+
+        const angle = dryerHatch.angle;
+        if (angle === undefined) {
+            return;
+        }
+
+        dryerHatchField.setValue(angle);
     }
 
     function showError(errorText) {
