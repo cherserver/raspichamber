@@ -2,20 +2,9 @@
 	all build build-release build-debug
 
 --build:
-	@echo "Build binaries"
+	@echo "Build raspichamber"
 	@echo $(BUILD_ARGS)
-	@ERR=0; \
-	for CMD in $$(find "./cmd" -maxdepth 1 -mindepth 1 -type d -print); do \
-		echo "Build $$(basename "$${CMD}")"; \
-		BIN=$$(basename "$${CMD}"); \
-		go build $(BUILD_ARGS) -o "$(GO_DIR)/.bin/$${BIN}/$(BUILD_TYPE)/$${BIN}" "$${CMD}" || { \
-			ERR=$$?; \
-			break; \
-		}; \
-	done; \
-	if [ $$ERR != 0 ]; then \
-		exit $$ERR; \
-	fi
+	go build $(BUILD_ARGS) -o ".bin/raspichamber" cmd/raspichamber/main.go
 
 build: build-debug
 
