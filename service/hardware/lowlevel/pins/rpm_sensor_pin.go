@@ -69,12 +69,12 @@ func (f *rpmSensorPin) Stop() {
 func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
 	_ = evt
 	currentDuration := evt.Timestamp - f.lastTime
-	if currentDuration < 5*time.Millisecond {
+	f.lastTime = evt.Timestamp
+	if currentDuration < 100*time.Microsecond {
 		return
 	}
 
 	f.counter.Incr(1)
-	f.lastTime = evt.Timestamp
 	/*log.Printf("event:%3d %-7s %s (%s)\n",
 	evt.Offset,
 	edge,
