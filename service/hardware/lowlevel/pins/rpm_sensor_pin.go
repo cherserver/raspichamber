@@ -19,6 +19,7 @@ type rpmSensorPin struct {
 	chip         *gpiod.Chip
 	line         *gpiod.Line
 	counter      *ratecounter.RateCounter
+	lastTime     time.Duration
 }
 
 var _ lowlevel.RpmSensorPin = &rpmSensorPin{}
@@ -42,7 +43,7 @@ func (f *rpmSensorPin) Init() error {
 
 	f.line, err = f.chip.RequestLine(f.hwPin,
 		gpiod.WithPullUp,
-		gpiod.WithRisingEdge,
+		gpiod.WithFallingEdge,
 		gpiod.WithEventHandler(f.edgeEventHandler))
 	if err != nil {
 		return fmt.Errorf("failed to initialize pin '%v', failed to init GPIOD line: %w", f.pin, err)
@@ -67,7 +68,13 @@ func (f *rpmSensorPin) Stop() {
 
 func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
 	_ = evt
+	currentDuration := evt.Timestamp - f.lastTime
+	if currentDuration < 5*time.Millisecond {
+		return
+	}
+
 	f.counter.Incr(1)
+	f.lastTime = evt.Timestamp
 	/*log.Printf("event:%3d %-7s %s (%s)\n",
 	evt.Offset,
 	edge,
