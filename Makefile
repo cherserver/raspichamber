@@ -20,6 +20,7 @@ build-profile: BUILD_ARGS += -tags pprof
 build-profile: --build
 
 --install:
+	mkdir -p /etc/raspichamber/display/
 	@echo "Install raspichamber service"
 	cp -f .bin/raspichamber /usr/sbin/
 	cp -f system/systemd/raspichamber.service /etc/systemd/system/
@@ -44,3 +45,5 @@ build-profile: --build
 	systemctl disable raspichamber_display
 	rm -f /etc/systemd/system/raspichamber_display.service
 	rm -f /usr/sbin/raspichamber_display.py
+
+	rm -rf /etc/raspichamber/display/

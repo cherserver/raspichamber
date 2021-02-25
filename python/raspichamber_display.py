@@ -175,7 +175,7 @@ bus = 0
 device = 0
 
 # 240x240 display with hardware SPI:
-display = ST7789.ST7789(spidev.SpiDev(bus, device), RST, DC, BL)
+display = ST7789(spidev.SpiDev(bus, device), RST, DC, BL)
 
 # Initialize library.
 display.Init()
