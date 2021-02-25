@@ -187,7 +187,7 @@ while True:
     try:
         image = Image.open('/etc/raspichamber/display/status.jpg')
         display.ShowImage(image, 0, 0)
-    except OSError:
+    except IOError:
         pass
 
     time.sleep(1)
