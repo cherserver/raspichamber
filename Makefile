@@ -24,6 +24,7 @@ build-profile: --build
 
 install-raspichamber:
 	@echo "Install raspichamber service"
+	mkdir -p /etc/raspichamber
 	cp -f .bin/raspichamber /usr/sbin/
 	cp -f system/systemd/raspichamber.service /etc/systemd/system/
 	systemctl enable raspichamber
@@ -31,7 +32,7 @@ install-raspichamber:
 
 install-raspichamber-display:
 	@echo "Install raspichamber_display service"
-	mkdir -p /etc/raspichamber/display/
+	mkdir -p /etc/raspichamber_display/
 	cp -f python/raspichamber_display.py /usr/sbin/
 	cp -f system/systemd/raspichamber_display.service /etc/systemd/system/
 	systemctl enable raspichamber_display
@@ -43,6 +44,7 @@ uninstall-raspichamber:
 	systemctl disable raspichamber
 	rm -f /etc/systemd/system/raspichamber.service
 	rm -f /usr/sbin/raspichamber
+	rm -rf /etc/raspichamber
 
 uninstall-raspichamber-display:
 	@echo "Uninstall raspichamber_display service"
@@ -50,8 +52,7 @@ uninstall-raspichamber-display:
 	systemctl disable raspichamber_display
 	rm -f /etc/systemd/system/raspichamber_display.service
 	rm -f /usr/sbin/raspichamber_display.py
-
-	rm -rf /etc/raspichamber/display/
+	rm -rf /etc/raspichamber_display/
 
 install: build-release install-raspichamber install-raspichamber-display
 uninstall: uninstall-raspichamber uninstall-raspichamber-display

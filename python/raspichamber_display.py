@@ -185,7 +185,7 @@ display.clear()
 
 while True:
     try:
-        image = Image.open('/etc/raspichamber/display/status.jpg')
+        image = Image.open('/etc/raspichamber_display/status.jpg')
         display.ShowImage(image, 0, 0)
     except IOError:
         display.clear()
