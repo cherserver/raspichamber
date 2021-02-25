@@ -25,6 +25,7 @@ build-profile: --build
 install-raspichamber:
 	@echo "Install raspichamber service"
 	mkdir -p /etc/raspichamber
+	cp -rf http /etc/raspichamber/
 	cp -f .bin/raspichamber /usr/sbin/
 	cp -f system/systemd/raspichamber.service /etc/systemd/system/
 	systemctl enable raspichamber
