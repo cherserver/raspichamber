@@ -1,0 +1,14 @@
+[Unit]
+Description=Raspberry Pi 3D printer Chamber service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=centos
+ExecStart=/usr/sbin/raspichamber
+
+[Install]
+WantedBy=multi-user.target
