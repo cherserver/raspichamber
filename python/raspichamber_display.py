@@ -183,5 +183,11 @@ display.Init()
 # Clear display.
 display.clear()
 
-image = Image.open('/etc/raspichamber/display/status.jpg')
-display.ShowImage(image, 0, 0)
+while True:
+    try:
+        image = Image.open('/etc/raspichamber/display/status.jpg')
+        display.ShowImage(image, 0, 0)
+    except OSError:
+        # do nothing
+
+    time.sleep(1)
