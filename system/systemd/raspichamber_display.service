@@ -7,7 +7,6 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-User=centos
 ExecStart=/usr/bin/env python /usr/sbin/raspichamber_display.py
 
 [Install]
