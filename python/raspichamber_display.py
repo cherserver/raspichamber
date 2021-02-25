@@ -188,6 +188,6 @@ while True:
         image = Image.open('/etc/raspichamber/display/status.jpg')
         display.ShowImage(image, 0, 0)
     except IOError:
-        pass
+        display.clear()
 
     time.sleep(1)
