@@ -20,7 +20,7 @@ const (
 	statusImageFilePath = "../raspichamber_display/status.jpg"
 	temperatureTxtFmt   = "🌡%+2.2f°C"
 	humidityTxtFmt      = "💧%2.2f%%"
-	fanTxtFmt           = "💨%3s %03d%%"
+	fanTxtFmt           = "💨%-3s %03d%%"
 )
 
 type display struct {
