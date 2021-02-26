@@ -3,7 +3,6 @@ package display
 import (
 	"fmt"
 	"image/color"
-	"image/png"
 	"log"
 	"os"
 	"time"
@@ -17,13 +16,30 @@ import (
 )
 
 const (
+	intHeight  = 240
+	intWidth   = 240
+	height     = float64(intHeight)
+	width      = float64(intWidth)
+	halfHeight = height / 2
+	halfWidth  = width / 2
+
+	mainBorderSize  = 3
+	childBorderSize = 2
+
+	defaultMargin  = 10
+	leftmostMargin = 5
+
+	firstLineOffsetY  = 20
+	firstLineBottom   = 40
+	secondLineOffsetY = 60
+	secondLineBottom  = 80
+	thirdLineOffsetY  = 100
+
+	fontSize            = 30
 	statusImageFilePath = "../raspichamber_display/status.png"
 	temperatureTxtFmt   = "%+05.1f°"
 	humidityTxtFmt      = "%5.1f%%"
 	fanTxtFmt           = "%-1s %3d%%"
-	fontSize            = 30
-	mainBorderSize      = 3
-	childBorderSize     = 2
 )
 
 type display struct {
@@ -57,14 +73,13 @@ func (d *display) worker() {
 }
 
 func (d *display) printTemp(statusDraw *gg.Context, caption string, thermometer software.Thermometer, offsetX float64, offsetY float64) {
-	statusDraw.DrawString(caption, offsetX, offsetY+20)
-	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, thermometer.Temperature()), offsetX, offsetY+60)
-	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, thermometer.Humidity()), offsetX, offsetY+100)
+	statusDraw.DrawString(caption, offsetX, offsetY+firstLineOffsetY)
+	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, thermometer.Temperature()), offsetX, offsetY+secondLineOffsetY)
+	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, thermometer.Humidity()), offsetX, offsetY+thirdLineOffsetY)
 }
 
 func (d *display) saveStatusImage() error {
-	// 00172D
-	// 00264D
+	// deep blue
 	backgroundColor := color.RGBA{
 		R: 0,
 		G: 0x26,
@@ -72,6 +87,7 @@ func (d *display) saveStatusImage() error {
 		A: 0xff,
 	}
 
+	// light yellow
 	textColor := color.RGBA{
 		R: 0xFF,
 		G: 0xFF,
@@ -79,58 +95,50 @@ func (d *display) saveStatusImage() error {
 		A: 0xff,
 	}
 
-	height := 240
-	width := 240
-
-	statusDraw := gg.NewContext(width, height)
+	statusDraw := gg.NewContext(intWidth, intHeight)
 	statusDraw.SetColor(backgroundColor)
 	statusDraw.Clear()
 
-	statusDraw.RotateAbout(gg.Radians(180), float64(width/2), float64(height/2))
+	statusDraw.RotateAbout(gg.Radians(180), halfWidth, halfHeight)
 
 	statusDraw.SetColor(textColor)
 
 	// border cross
 	statusDraw.SetLineWidth(mainBorderSize)
-	statusDraw.DrawLine(float64(width/2), 0, float64(width/2), float64(height))
+	statusDraw.DrawLine(halfWidth, 0, halfWidth, height)
 	statusDraw.Stroke()
-	statusDraw.DrawLine(0, float64(height/2), float64(width), float64(height/2))
+	statusDraw.DrawLine(0, halfHeight, width, halfHeight)
 	statusDraw.Stroke()
 
 	// fan borders
 	statusDraw.SetLineWidth(childBorderSize)
-	statusDraw.DrawLine(float64(width)/2, float64(height/2)+40, float64(width), float64(height/2)+40)
+	statusDraw.DrawLine(halfWidth, halfHeight+firstLineBottom, width, halfHeight+firstLineBottom)
 	statusDraw.Stroke()
-	statusDraw.DrawLine(float64(width)/2, float64(height/2)+80, float64(width), float64(height/2)+80)
+	statusDraw.DrawLine(halfWidth, halfHeight+secondLineBottom, width, halfHeight+secondLineBottom)
 	statusDraw.Stroke()
 
 	font, err := truetype.Parse(gomonobold.TTF)
 	fontFace := truetype.NewFace(font, &truetype.Options{Size: fontSize})
 	statusDraw.SetFontFace(fontFace)
 
-	secondHalfX := float64(width/2) + 10
-	secondHalfY := float64(height/2) + 10
+	secondHalfX := halfWidth + defaultMargin
+	secondHalfY := halfHeight + defaultMargin
 
-	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 5, 10)
-	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, 10)
-	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 5, secondHalfY)
+	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), leftmostMargin, defaultMargin)
+	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, defaultMargin)
+	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), leftmostMargin, secondHalfY)
 
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "I", d.hardware.InnerFan().SpeedPercent()), secondHalfX, secondHalfY+20)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "O", d.hardware.OuterFan().SpeedPercent()), secondHalfX, secondHalfY+60)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "R", d.hardware.RpiFan().SpeedPercent()), secondHalfX, secondHalfY+100)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "I", d.hardware.InnerFan().SpeedPercent()), secondHalfX, secondHalfY+firstLineOffsetY)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "O", d.hardware.OuterFan().SpeedPercent()), secondHalfX, secondHalfY+secondLineOffsetY)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "R", d.hardware.RpiFan().SpeedPercent()), secondHalfX, secondHalfY+thirdLineOffsetY)
 
 	tmpPath := statusImageFilePath + "_tmp"
-	f, err := os.Create(tmpPath)
+	err = statusDraw.SavePNG(tmpPath)
 	if err != nil {
-		return fmt.Errorf("failed to open status image file '%v': %w", tmpPath, err)
+		return fmt.Errorf("failed to save status image file '%v': %w", tmpPath, err)
 	}
 
-	defer func() { _ = f.Close() }()
-
-	if err = png.Encode(f, statusDraw.Image()); err != nil {
-		return fmt.Errorf("failed to encode status image to file '%v': %w", tmpPath, err)
-	}
-
+	// "atomic write"
 	if err = os.Rename(tmpPath, statusImageFilePath); err != nil {
 		return fmt.Errorf("failed to rename status image file from '%v' to '%v': %w", tmpPath, statusImageFilePath, err)
 	}
