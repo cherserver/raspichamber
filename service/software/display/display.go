@@ -50,8 +50,8 @@ func (d *display) saveStatusImage() error {
 	// 00264D
 	backgroundColor := color.RGBA{
 		R: 0,
-		G: 0x17,
-		B: 0x2D,
+		G: 0x26,
+		B: 0x4D,
 		A: 0xff,
 	}
 
@@ -75,10 +75,11 @@ func (d *display) saveStatusImage() error {
 	statusDraw.Fill()
 
 	statusDraw.SetColor(textColor)
+	statusDraw.SetLineWidth(3)
 	statusDraw.DrawLine(float64(width/2), 0, float64(width/2), float64(height))
-	statusDraw.Fill()
+	statusDraw.Stroke()
 	statusDraw.DrawLine(0, float64(height/2), float64(width), float64(height/2))
-	statusDraw.Fill()
+	statusDraw.Stroke()
 
 	font, err := truetype.Parse(gomono.TTF)
 	fontFace := truetype.NewFace(font, &truetype.Options{
