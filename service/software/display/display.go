@@ -22,7 +22,8 @@ const (
 	humidityTxtFmt      = "%5.1f%%"
 	fanTxtFmt           = "%-2s %3d%%"
 	fontSize            = 25
-	borderSize          = 2
+	mainBorderSize      = 2
+	childBorderSize     = 1
 )
 
 type display struct {
@@ -88,15 +89,16 @@ func (d *display) saveStatusImage() error {
 	statusDraw.RotateAbout(gg.Radians(180), float64(width/2), float64(height/2))
 
 	statusDraw.SetColor(textColor)
-	statusDraw.SetLineWidth(borderSize)
 
 	// border cross
+	statusDraw.SetLineWidth(mainBorderSize)
 	statusDraw.DrawLine(float64(width/2), 0, float64(width/2), float64(height))
 	statusDraw.Stroke()
 	statusDraw.DrawLine(0, float64(height/2), float64(width), float64(height/2))
 	statusDraw.Stroke()
 
 	// fan borders
+	statusDraw.SetLineWidth(childBorderSize)
 	statusDraw.DrawLine(float64(width)/2, float64(height/2)+40, float64(width), float64(height/2)+40)
 	statusDraw.Stroke()
 	statusDraw.DrawLine(float64(width)/2, float64(height/2)+40, float64(width), float64(height/2)+40)
