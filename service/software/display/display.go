@@ -3,7 +3,7 @@ package display
 import (
 	"fmt"
 	"image/color"
-	"image/jpeg"
+	"image/png"
 	"log"
 	"os"
 	"time"
@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	statusImageFilePath = "../raspichamber_display/status.jpg"
+	statusImageFilePath = "../raspichamber_display/status.png"
 	temperatureTxtFmt   = "🌡%+2.1f°C"
 	humidityTxtFmt      = "💧%2.1f%%"
 	fanTxtFmt           = "❊%-3s %3d%%"
@@ -116,9 +116,7 @@ func (d *display) saveStatusImage() error {
 
 	defer func() { _ = f.Close() }()
 
-	if err = jpeg.Encode(f, statusDraw.Image(), &jpeg.Options{
-		Quality: jpeg.DefaultQuality,
-	}); err != nil {
+	if err = png.Encode(f, statusDraw.Image()); err != nil {
 		return fmt.Errorf("failed to encode status image to file '%v': %w", tmpPath, err)
 	}
 
