@@ -69,7 +69,6 @@ func (d *display) saveStatusImage() error {
 	fanTxtFmt := "💨 %03d %%"
 
 	statusDraw := gg.NewContext(width, height)
-	statusDraw.Rotate(gg.Radians(180))
 	statusDraw.SetColor(backgroundColor)
 	statusDraw.DrawRectangle(0, 0, float64(width), float64(height))
 	statusDraw.Fill()
