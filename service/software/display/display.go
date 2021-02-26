@@ -64,9 +64,9 @@ func (d *display) saveStatusImage() error {
 	height := 240
 	width := 240
 
-	temperatureTxtFmt := "🌡 %+2.2f °C"
-	humidityTxtFmt := "💧 %2.2f %%"
-	// fanTxtFmt := "💨 %03d %%"
+	temperatureTxtFmt := "🌡%+2.2f°C"
+	humidityTxtFmt := "💧%2.2f%%"
+	// fanTxtFmt := "💨%03d%%"
 
 	statusDraw := gg.NewContext(width, height)
 	statusDraw.SetColor(backgroundColor)
@@ -83,7 +83,7 @@ func (d *display) saveStatusImage() error {
 
 	font, err := truetype.Parse(gomonobold.TTF)
 	fontFace := truetype.NewFace(font, &truetype.Options{
-		Size: 16,
+		Size: 20,
 		// Hinting: font.HintingFull,
 	})
 	statusDraw.SetFontFace(fontFace)
