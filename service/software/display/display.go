@@ -10,7 +10,7 @@ import (
 
 	"github.com/fogleman/gg"
 	"github.com/golang/freetype/truetype"
-	"golang.org/x/image/font/gofont/gomono"
+	"golang.org/x/image/font/gofont/gomonobold"
 )
 
 const (
@@ -66,7 +66,7 @@ func (d *display) saveStatusImage() error {
 
 	temperatureTxtFmt := "🌡 %+2.2f °C"
 	humidityTxtFmt := "💧 %2.2f %%"
-	fanTxtFmt := "💨 %03d %%"
+	// fanTxtFmt := "💨 %03d %%"
 
 	statusDraw := gg.NewContext(width, height)
 	statusDraw.SetColor(backgroundColor)
@@ -81,19 +81,17 @@ func (d *display) saveStatusImage() error {
 	statusDraw.DrawLine(0, float64(height/2), float64(width), float64(height/2))
 	statusDraw.Stroke()
 
-	font, err := truetype.Parse(gomono.TTF)
+	font, err := truetype.Parse(gomonobold.TTF)
 	fontFace := truetype.NewFace(font, &truetype.Options{
-		Size: 20,
+		Size: 16,
 		// Hinting: font.HintingFull,
 	})
 	statusDraw.SetFontFace(fontFace)
 
-	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, 18.7), 0, 20)
-	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, 18.7), 0, 60)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 100)
-
-	// statusDraw.Rotate(gg.Radians(180))
-	statusDraw.RotateAbout(gg.Radians(180), float64(width/2), float64(height/2))
+	statusDraw.DrawString("Inner", 0, 20)
+	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, 18.7), 0, 60)
+	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, 18.7), 0, 100)
+	// statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 100)
 
 	tmpPath := statusImageFilePath + "_tmp"
 	f, err := os.Create(tmpPath)
