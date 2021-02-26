@@ -99,13 +99,16 @@ func (d *display) saveStatusImage() error {
 	})
 	statusDraw.SetFontFace(fontFace)
 
-	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 0, 0)
-	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), float64(width/2), 0)
-	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 0, float64(height/2))
+	secondHalfX := float64(width/2) + 5
+	secondHalfY := float64(height / 2)
 
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "IN", d.hardware.InnerFan().SpeedPercent()), float64(width/2), float64(height/2)+60)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "OUT", d.hardware.OuterFan().SpeedPercent()), float64(width/2), float64(height/2)+60)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "RPi", d.hardware.RpiFan().SpeedPercent()), float64(width/2), float64(height/2)+100)
+	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 0, 0)
+	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, 0)
+	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 0, secondHalfY)
+
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "IN", d.hardware.InnerFan().SpeedPercent()), secondHalfX, secondHalfY+20)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "OUT", d.hardware.OuterFan().SpeedPercent()), secondHalfX, secondHalfY+60)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "RPi", d.hardware.RpiFan().SpeedPercent()), secondHalfX, secondHalfY+100)
 
 	tmpPath := statusImageFilePath + "_tmp"
 	f, err := os.Create(tmpPath)
