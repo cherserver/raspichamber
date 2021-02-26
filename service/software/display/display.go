@@ -21,7 +21,7 @@ const (
 	temperatureTxtFmt   = "%+05.1f°"
 	humidityTxtFmt      = "%5.1f%%"
 	fanTxtFmt           = "%-1s %3d%%"
-	fontSize            = 29
+	fontSize            = 30
 	mainBorderSize      = 3
 	childBorderSize     = 2
 )
