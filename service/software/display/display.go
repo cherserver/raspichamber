@@ -22,8 +22,8 @@ const (
 	humidityTxtFmt      = "%5.1f%%"
 	fanTxtFmt           = "%-2s %3d%%"
 	fontSize            = 25
-	mainBorderSize      = 2
-	childBorderSize     = 1
+	mainBorderSize      = 3
+	childBorderSize     = 2
 )
 
 type display struct {
