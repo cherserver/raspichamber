@@ -89,9 +89,17 @@ func (d *display) saveStatusImage() error {
 
 	statusDraw.SetColor(textColor)
 	statusDraw.SetLineWidth(borderSize)
+
+	// border cross
 	statusDraw.DrawLine(float64(width/2), 0, float64(width/2), float64(height))
 	statusDraw.Stroke()
 	statusDraw.DrawLine(0, float64(height/2), float64(width), float64(height/2))
+	statusDraw.Stroke()
+
+	// fan borders
+	statusDraw.DrawLine(float64(width)/2, float64(height/2)+40, float64(width), float64(height/2)+40)
+	statusDraw.Stroke()
+	statusDraw.DrawLine(float64(width)/2, float64(height/2)+40, float64(width), float64(height/2)+40)
 	statusDraw.Stroke()
 
 	font, err := truetype.Parse(gomonobold.TTF)
@@ -101,9 +109,9 @@ func (d *display) saveStatusImage() error {
 	secondHalfX := float64(width/2) + 10
 	secondHalfY := float64(height/2) + 10
 
-	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 0, 0)
+	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 5, 0)
 	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, 0)
-	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 0, secondHalfY)
+	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 5, secondHalfY)
 
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "IN", d.hardware.InnerFan().SpeedPercent()), secondHalfX, secondHalfY+20)
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "OF", d.hardware.OuterFan().SpeedPercent()), secondHalfX, secondHalfY+60)
