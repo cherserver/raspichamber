@@ -5,7 +5,6 @@ import (
 	"image/color"
 	"image/jpeg"
 	"log"
-	"math"
 	"os"
 	"time"
 
@@ -70,6 +69,7 @@ func (d *display) saveStatusImage() error {
 	fanTxtFmt := "💨 %03d %%"
 
 	statusDraw := gg.NewContext(width, height)
+	statusDraw.Rotate(gg.Radians(180))
 	statusDraw.SetColor(backgroundColor)
 	statusDraw.DrawRectangle(0, 0, float64(width), float64(height))
 	statusDraw.Fill()
@@ -92,7 +92,7 @@ func (d *display) saveStatusImage() error {
 	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, 18.7), 0, 60)
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 100)
 
-	statusDraw.Rotate(math.Pi)
+	// statusDraw.Rotate(gg.Radians(180))
 
 	tmpPath := statusImageFilePath + "_tmp"
 	f, err := os.Create(tmpPath)
