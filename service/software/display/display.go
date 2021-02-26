@@ -18,7 +18,7 @@ import (
 
 const (
 	statusImageFilePath = "../raspichamber_display/status.png"
-	temperatureTxtFmt   = "%+05.1f°C"
+	temperatureTxtFmt   = "%+05.1f℃"
 	humidityTxtFmt      = "%5.1f%%"
 	fanTxtFmt           = "%-2s %3d%%"
 	fontSize            = 25
