@@ -70,8 +70,7 @@ func (d *display) saveStatusImage() error {
 
 	statusDraw := gg.NewContext(width, height)
 	statusDraw.SetColor(backgroundColor)
-	statusDraw.DrawRectangle(0, 0, float64(width), float64(height))
-	statusDraw.Fill()
+	statusDraw.Clear()
 
 	statusDraw.SetColor(textColor)
 	statusDraw.SetLineWidth(3)
@@ -92,6 +91,7 @@ func (d *display) saveStatusImage() error {
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 100)
 
 	// statusDraw.Rotate(gg.Radians(180))
+	statusDraw.RotateAbout(gg.Radians(180), float64(width/2), float64(height/2))
 
 	tmpPath := statusImageFilePath + "_tmp"
 	f, err := os.Create(tmpPath)
