@@ -101,7 +101,7 @@ func (d *display) saveStatusImage() error {
 	statusDraw.SetLineWidth(childBorderSize)
 	statusDraw.DrawLine(float64(width)/2, float64(height/2)+40, float64(width), float64(height/2)+40)
 	statusDraw.Stroke()
-	statusDraw.DrawLine(float64(width)/2, float64(height/2)+40, float64(width), float64(height/2)+40)
+	statusDraw.DrawLine(float64(width)/2, float64(height/2)+80, float64(width), float64(height/2)+80)
 	statusDraw.Stroke()
 
 	font, err := truetype.Parse(gomonobold.TTF)
