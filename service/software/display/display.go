@@ -87,6 +87,8 @@ func (d *display) saveStatusImage() error {
 	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, 18.7), 0, 50)
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 90)
 
+	statusDraw.Rotate(180)
+
 	tmpPath := statusImageFilePath + "_tmp"
 	f, err := os.Create(tmpPath)
 	if err != nil {
