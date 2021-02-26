@@ -18,9 +18,10 @@ import (
 
 const (
 	statusImageFilePath = "../raspichamber_display/status.jpg"
-	temperatureTxtFmt   = "🌡%+2.2f°C"
-	humidityTxtFmt      = "💧%2.2f%%"
-	fanTxtFmt           = "💨%-3s %03d%%"
+	temperatureTxtFmt   = "🌡%+2.1f°C"
+	humidityTxtFmt      = "💧%2.1f%%"
+	fanTxtFmt           = "❊%-3s %3d%%"
+	fontSize            = 22
 )
 
 type display struct {
@@ -93,10 +94,7 @@ func (d *display) saveStatusImage() error {
 	statusDraw.Stroke()
 
 	font, err := truetype.Parse(gomonobold.TTF)
-	fontFace := truetype.NewFace(font, &truetype.Options{
-		Size: 20,
-		// Hinting: font.HintingFull,
-	})
+	fontFace := truetype.NewFace(font, &truetype.Options{Size: fontSize})
 	statusDraw.SetFontFace(fontFace)
 
 	secondHalfX := float64(width/2) + 10
