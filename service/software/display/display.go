@@ -18,10 +18,10 @@ import (
 
 const (
 	statusImageFilePath = "../raspichamber_display/status.png"
-	temperatureTxtFmt   = "%+05.1f°C"
+	temperatureTxtFmt   = "%+05.1f°"
 	humidityTxtFmt      = "%5.1f%%"
-	fanTxtFmt           = "%-2s %3d%%"
-	fontSize            = 25
+	fanTxtFmt           = "%-1s %3d%%"
+	fontSize            = 27
 	mainBorderSize      = 3
 	childBorderSize     = 2
 )
@@ -115,9 +115,9 @@ func (d *display) saveStatusImage() error {
 	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, 0)
 	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 5, secondHalfY)
 
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "IN", d.hardware.InnerFan().SpeedPercent()), secondHalfX, secondHalfY+20)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "OF", d.hardware.OuterFan().SpeedPercent()), secondHalfX, secondHalfY+60)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "RP", d.hardware.RpiFan().SpeedPercent()), secondHalfX, secondHalfY+100)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "I", d.hardware.InnerFan().SpeedPercent()), secondHalfX, secondHalfY+20)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "O", d.hardware.OuterFan().SpeedPercent()), secondHalfX, secondHalfY+60)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "R", d.hardware.RpiFan().SpeedPercent()), secondHalfX, secondHalfY+100)
 
 	tmpPath := statusImageFilePath + "_tmp"
 	f, err := os.Create(tmpPath)
