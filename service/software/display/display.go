@@ -82,14 +82,14 @@ func (d *display) saveStatusImage() error {
 
 	font, err := truetype.Parse(gomono.TTF)
 	fontFace := truetype.NewFace(font, &truetype.Options{
-		Size: 25,
+		Size: 20,
 		// Hinting: font.HintingFull,
 	})
 	statusDraw.SetFontFace(fontFace)
 
-	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, 18.7), 0, 10)
-	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, 18.7), 0, 50)
-	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 90)
+	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, 18.7), 0, 20)
+	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, 18.7), 0, 60)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 100)
 
 	statusDraw.Rotate(math.Pi)
 
