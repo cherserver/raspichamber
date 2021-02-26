@@ -16,6 +16,9 @@ import (
 )
 
 const (
+	statusImageFilePathEnv     = "RASPICHAMBER_STATUS_IMAGE_FILE_PATH"
+	defaultStatusImageFilePath = "../raspichamber_display/status.png"
+
 	intHeight  = 240
 	intWidth   = 240
 	height     = float64(intHeight)
@@ -35,24 +38,29 @@ const (
 	secondLineBottom  = 80
 	thirdLineOffsetY  = 100
 
-	fontSize            = 30
-	statusImageFilePath = "../raspichamber_display/status.png"
-	temperatureTxtFmt   = "%+05.1f°"
-	humidityTxtFmt      = "%5.1f%%"
-	fanTxtFmt           = "%-1s %3d%%"
+	fontSize          = 30
+	temperatureTxtFmt = "%+05.1f°"
+	humidityTxtFmt    = "%5.1f%%"
+	fanTxtFmt         = "%-1s %3d%%"
 )
 
 type display struct {
-	hardware *hardware.Application
+	hardware            *hardware.Application
+	statusImageFilePath string
 }
 
 func New(hardware *hardware.Application) *display {
 	return &display{
-		hardware: hardware,
+		hardware:            hardware,
+		statusImageFilePath: defaultStatusImageFilePath,
 	}
 }
 
 func (d *display) Init() error {
+	if imageFilePath, ok := os.LookupEnv(statusImageFilePathEnv); ok {
+		d.statusImageFilePath = imageFilePath
+	}
+
 	go d.worker()
 	return nil
 }
@@ -132,15 +140,15 @@ func (d *display) saveStatusImage() error {
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "O", d.hardware.OuterFan().SpeedPercent()), secondHalfX, secondHalfY+secondLineOffsetY)
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "R", d.hardware.RpiFan().SpeedPercent()), secondHalfX, secondHalfY+thirdLineOffsetY)
 
-	tmpPath := statusImageFilePath + "_tmp"
+	tmpPath := d.statusImageFilePath + "_tmp"
 	err = statusDraw.SavePNG(tmpPath)
 	if err != nil {
 		return fmt.Errorf("failed to save status image file '%v': %w", tmpPath, err)
 	}
 
 	// "atomic write"
-	if err = os.Rename(tmpPath, statusImageFilePath); err != nil {
-		return fmt.Errorf("failed to rename status image file from '%v' to '%v': %w", tmpPath, statusImageFilePath, err)
+	if err = os.Rename(tmpPath, d.statusImageFilePath); err != nil {
+		return fmt.Errorf("failed to rename status image file from '%v' to '%v': %w", tmpPath, d.statusImageFilePath, err)
 	}
 
 	return nil
