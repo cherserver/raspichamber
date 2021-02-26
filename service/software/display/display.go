@@ -111,8 +111,8 @@ func (d *display) saveStatusImage() error {
 	secondHalfX := float64(width/2) + 10
 	secondHalfY := float64(height/2) + 10
 
-	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 5, 0)
-	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, 0)
+	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 5, 5)
+	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, 5)
 	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 5, secondHalfY)
 
 	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "I", d.hardware.InnerFan().SpeedPercent()), secondHalfX, secondHalfY+20)
