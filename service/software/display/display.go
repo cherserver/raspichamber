@@ -99,8 +99,8 @@ func (d *display) saveStatusImage() error {
 	})
 	statusDraw.SetFontFace(fontFace)
 
-	secondHalfX := float64(width/2) + 5
-	secondHalfY := float64(height / 2)
+	secondHalfX := float64(width/2) + 10
+	secondHalfY := float64(height/2) + 10
 
 	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 0, 0)
 	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), secondHalfX, 0)
