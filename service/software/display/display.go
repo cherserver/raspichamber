@@ -70,11 +70,14 @@ func (d *display) saveStatusImage() error {
 
 	statusDraw := gg.NewContext(width, height)
 	statusDraw.SetColor(backgroundColor)
+	statusDraw.DrawRectangle(0, 0, float64(width), float64(height))
 	statusDraw.Fill()
 
 	statusDraw.SetColor(textColor)
 	statusDraw.DrawLine(float64(width/2), 0, float64(width/2), float64(height))
+	statusDraw.Fill()
 	statusDraw.DrawLine(0, float64(height/2), float64(width), float64(height/2))
+	statusDraw.Fill()
 
 	font, err := truetype.Parse(gomono.TTF)
 	fontFace := truetype.NewFace(font, &truetype.Options{
