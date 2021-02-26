@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/cherserver/raspichamber/service/hardware/application"
+	"github.com/cherserver/raspichamber/service/software/display"
 	"github.com/cherserver/raspichamber/service/software/web"
 )
 
@@ -25,11 +26,18 @@ func main() {
 		log.Fatalf("Failed to initialize web server: %v", err)
 	}
 
+	displayUpdater := display.New()
+	err = displayUpdater.Init()
+	if err != nil {
+		log.Fatalf("Failed to initialize display: %v", err)
+	}
+
 	stopSignalCh := make(chan os.Signal, 1)
 	signal.Notify(stopSignalCh, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
 	stopSignal := <-stopSignalCh
 	log.Printf("Signal '%+v' caught, exit", stopSignal)
 
+	displayUpdater.Stop()
 	webServer.Stop()
 	hardwareApp.Stop()
 }

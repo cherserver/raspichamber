@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"image/color"
 	"image/jpeg"
+	"log"
 	"os"
+	"time"
 
 	"github.com/fogleman/gg"
 	"github.com/golang/freetype/truetype"
@@ -18,8 +20,28 @@ const (
 type display struct {
 }
 
+func New() *display {
+	return &display{}
+}
+
 func (d *display) Init() error {
+	go d.worker()
 	return nil
+}
+
+func (d *display) Stop() {
+
+}
+
+func (d *display) worker() {
+	for {
+		err := d.saveStatusImage()
+		if err != nil {
+			log.Printf("Failed to save status image: %v", err)
+		}
+
+		time.Sleep(1 * time.Second)
+	}
 }
 
 func (d *display) saveStatusImage() error {
