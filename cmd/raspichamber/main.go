@@ -26,7 +26,7 @@ func main() {
 		log.Fatalf("Failed to initialize web server: %v", err)
 	}
 
-	displayUpdater := display.New()
+	displayUpdater := display.New(hardwareApp)
 	err = displayUpdater.Init()
 	if err != nil {
 		log.Fatalf("Failed to initialize display: %v", err)

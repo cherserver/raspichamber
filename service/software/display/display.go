@@ -11,17 +11,26 @@ import (
 	"github.com/fogleman/gg"
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font/gofont/gomonobold"
+
+	hardware "github.com/cherserver/raspichamber/service/hardware/application"
+	"github.com/cherserver/raspichamber/service/software"
 )
 
 const (
 	statusImageFilePath = "../raspichamber_display/status.jpg"
+	temperatureTxtFmt   = "🌡%+2.2f°C"
+	humidityTxtFmt      = "💧%2.2f%%"
+	fanTxtFmt           = "💨%3s %03d%%"
 )
 
 type display struct {
+	hardware *hardware.Application
 }
 
-func New() *display {
-	return &display{}
+func New(hardware *hardware.Application) *display {
+	return &display{
+		hardware: hardware,
+	}
 }
 
 func (d *display) Init() error {
@@ -44,6 +53,12 @@ func (d *display) worker() {
 	}
 }
 
+func (d *display) printTemp(statusDraw *gg.Context, caption string, thermometer software.Thermometer, offsetX float64, offsetY float64) {
+	statusDraw.DrawString(caption, offsetX, offsetY+20)
+	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, thermometer.Temperature()), offsetX, offsetY+60)
+	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, thermometer.Humidity()), offsetX, offsetY+100)
+}
+
 func (d *display) saveStatusImage() error {
 	// 00172D
 	// 00264D
@@ -63,10 +78,6 @@ func (d *display) saveStatusImage() error {
 
 	height := 240
 	width := 240
-
-	temperatureTxtFmt := "🌡%+2.2f°C"
-	humidityTxtFmt := "💧%2.2f%%"
-	// fanTxtFmt := "💨%03d%%"
 
 	statusDraw := gg.NewContext(width, height)
 	statusDraw.SetColor(backgroundColor)
@@ -88,10 +99,13 @@ func (d *display) saveStatusImage() error {
 	})
 	statusDraw.SetFontFace(fontFace)
 
-	statusDraw.DrawString("Inner", 0, 20)
-	statusDraw.DrawString(fmt.Sprintf(temperatureTxtFmt, 18.7), 0, 60)
-	statusDraw.DrawString(fmt.Sprintf(humidityTxtFmt, 18.7), 0, 100)
-	// statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, 18), 0, 100)
+	d.printTemp(statusDraw, "Inner", d.hardware.InnerThermometer(), 0, 0)
+	d.printTemp(statusDraw, "Outer", d.hardware.OuterThermometer(), float64(width/2), 0)
+	d.printTemp(statusDraw, "Dryer", d.hardware.DryerThermometer(), 0, float64(height/2))
+
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "IN", d.hardware.InnerFan().SpeedPercent()), float64(width/2), float64(height/2)+60)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "OUT", d.hardware.OuterFan().SpeedPercent()), float64(width/2), float64(height/2)+60)
+	statusDraw.DrawString(fmt.Sprintf(fanTxtFmt, "RPi", d.hardware.RpiFan().SpeedPercent()), float64(width/2), float64(height/2)+100)
 
 	tmpPath := statusImageFilePath + "_tmp"
 	f, err := os.Create(tmpPath)
