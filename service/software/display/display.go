@@ -72,6 +72,8 @@ func (d *display) saveStatusImage() error {
 	statusDraw.SetColor(backgroundColor)
 	statusDraw.Clear()
 
+	statusDraw.RotateAbout(gg.Radians(180), float64(width/2), float64(height/2))
+
 	statusDraw.SetColor(textColor)
 	statusDraw.SetLineWidth(3)
 	statusDraw.DrawLine(float64(width/2), 0, float64(width/2), float64(height))
