@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/google/uuid"
@@ -46,6 +47,8 @@ func (s *server) Init() error {
 	fileServer := http.FileServer(http.Dir("./http"))
 	http.Handle("/", fileServer)
 
+	http.HandleFunc("/reset", s.resetHandler)
+
 	http.HandleFunc("/devices", s.statusHandler)
 	http.HandleFunc("/devices/inner-fan/set-speed-percent", s.innerFanSetSpeedHandler)
 	http.HandleFunc("/devices/outer-fan/set-speed-percent", s.outerFanSetSpeedHandler)
@@ -69,6 +72,11 @@ func (s *server) Init() error {
 
 func (s *server) Stop() {
 
+}
+
+func (s *server) resetHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("reset caught, exit")
+	os.Exit(0)
 }
 
 func (s *server) statusHandler(w http.ResponseWriter, r *http.Request) {

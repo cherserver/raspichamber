@@ -27,11 +27,11 @@ const (
 	RPiFanTachoNum  = 28
 
 	// Temp
-	OuterTempGPIO = 23
-	OuterTempNum  = 16
+	OuterTempGPIO = 22
+	OuterTempNum  = 15
 
-	InnerTempGPIO = 22
-	InnerTempNum  = 15
+	InnerTempGPIO = 23
+	InnerTempNum  = 16
 
 	DryerTempGPIO = 2
 	DryerTempNum  = 3
