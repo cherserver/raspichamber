@@ -12,6 +12,11 @@ import (
 	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
 )
 
+const (
+    secondsPerMinute = 60
+    ticksPerRevolution = 2
+)
+
 type rpmSensorPin struct {
 	pinSubsystem lowlevel.PinSubsystem
 	pin          lowlevel.Pin
@@ -67,10 +72,13 @@ func (f *rpmSensorPin) Stop() {
 }
 
 func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
-	_ = evt
-	currentDuration := evt.Timestamp - f.lastTime
-	f.lastTime = evt.Timestamp
-	if currentDuration < 100*time.Microsecond {
+    go f.countEvent(evt.Timestamp)
+}
+
+func (f *rpmSensorPin) countEvent(eventTime time.Duration) {
+	currentDuration := eventTime - f.lastTime
+	f.lastTime = eventTime
+	if currentDuration < 50*time.Microsecond {
 		return
 	}
 
@@ -83,5 +91,6 @@ func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
 }
 
 func (f *rpmSensorPin) RPM() (uint32, error) {
-	return uint32(f.counter.Rate() / 2), nil
+	herz := f.counter.Rate() / 2
+	return uint32(herz*secondsPerMinute/ticksPerRevolution), nil
 }

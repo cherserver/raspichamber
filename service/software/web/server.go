@@ -56,7 +56,7 @@ func (s *server) Init() error {
 	http.HandleFunc("/devices/dryer-control/set-state", s.dryerControlSetStateHandler)
 	http.HandleFunc("/devices/dryer-hatch/set-angle", s.dryerHatchSetAngleHandler)
 
-	server := &http.Server{Addr: ":8080", Handler: nil}
+	server := &http.Server{Addr: ":80", Handler: nil}
 	ln, err := net.Listen("tcp", server.Addr)
 	if err != nil {
 		return fmt.Errorf("failed to start web server: %w", err)
