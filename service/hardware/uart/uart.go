@@ -47,6 +47,11 @@ func (u *UART) Init() error {
 
 	go u.reader()
 
+	err = u.Send("set-auto-report on")
+	if err != nil {
+		return fmt.Errorf("failed to set pico autoreport 'on': %w", err)
+	}
+
 	return nil
 }
 
@@ -141,5 +146,7 @@ func (u *UART) Stop() {
 		return
 	}
 
+	_ = u.Send("set-auto-report off")
+	
 	_ = u.port.Close()
 }
