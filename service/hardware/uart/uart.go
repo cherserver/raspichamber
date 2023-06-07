@@ -104,6 +104,7 @@ func (u *UART) processOutput(data []byte) {
 
 	if data[0] == '{' {
 		u.processStatus(data)
+		return
 	}
 
 	u.processResponse(data)
