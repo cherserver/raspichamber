@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	UARTPortName = "ttyS0"
+	UARTPortName = "/dev/ttyS0"
 	UARTBaudRate = 115200
 )
 

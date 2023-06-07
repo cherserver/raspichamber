@@ -110,7 +110,7 @@ func (u *UART) processOutput(data []byte) {
 }
 
 func (u *UART) processResponse(data []byte) {
-
+	log.Printf("Response: %s", string(data))
 }
 
 func (u *UART) processStatus(data []byte) {
@@ -147,6 +147,6 @@ func (u *UART) Stop() {
 	}
 
 	_ = u.Send("set-auto-report off")
-	
+
 	_ = u.port.Close()
 }
