@@ -3,7 +3,7 @@ package application
 import (
 	"fmt"
 
-	"github.com/cherserver/raspichamber/service/hardware/devices"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/devices"
 )
 
 type Application struct {

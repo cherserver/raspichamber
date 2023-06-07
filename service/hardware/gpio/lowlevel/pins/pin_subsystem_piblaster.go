@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel"
 )
 
 var subsystemTypePiBlaster = subsystemTypePiBlasterType{}

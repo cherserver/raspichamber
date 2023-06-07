@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/cherserver/raspichamber/service/hardware/application"
+	"github.com/cherserver/raspichamber/service/hardware/uart/application"
 	"github.com/cherserver/raspichamber/service/software/display"
 	"github.com/cherserver/raspichamber/service/software/web"
 )

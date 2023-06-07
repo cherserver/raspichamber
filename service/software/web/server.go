@@ -12,7 +12,7 @@ import (
 
 	"github.com/google/uuid"
 
-	hardware "github.com/cherserver/raspichamber/service/hardware/application"
+	hardware "github.com/cherserver/raspichamber/service/hardware/uart/application"
 	"github.com/cherserver/raspichamber/service/software"
 )
 
@@ -145,23 +145,23 @@ func (s *server) dryerControlSetStateHandler(w http.ResponseWriter, r *http.Requ
 
 	switch strVal {
 	case "off":
-		s.dryerControl.SetState(software.DryerStateOff)
+		err = s.dryerControl.SetState(software.DryerStateOff)
 	case "on35degrees":
-		s.dryerControl.SetState(software.DryerStateOn35Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn35Degrees)
 	case "on40degrees":
-		s.dryerControl.SetState(software.DryerStateOn40Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn40Degrees)
 	case "on45degrees":
-		s.dryerControl.SetState(software.DryerStateOn45Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn45Degrees)
 	case "on50degrees":
-		s.dryerControl.SetState(software.DryerStateOn50Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn50Degrees)
 	case "on55degrees":
-		s.dryerControl.SetState(software.DryerStateOn55Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn55Degrees)
 	case "on60degrees":
-		s.dryerControl.SetState(software.DryerStateOn60Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn60Degrees)
 	case "on65degrees":
-		s.dryerControl.SetState(software.DryerStateOn65Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn65Degrees)
 	case "on70degrees":
-		s.dryerControl.SetState(software.DryerStateOn70Degrees)
+		err = s.dryerControl.SetState(software.DryerStateOn70Degrees)
 	default:
 		http.Error(
 			w,
@@ -169,6 +169,10 @@ func (s *server) dryerControlSetStateHandler(w http.ResponseWriter, r *http.Requ
 			http.StatusBadRequest,
 		)
 		return
+	}
+
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Failed to set hatch control state: %v", err), http.StatusInternalServerError)
 	}
 }
 

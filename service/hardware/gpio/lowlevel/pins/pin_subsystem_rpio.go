@@ -5,7 +5,7 @@ import (
 
 	"github.com/stianeikeland/go-rpio"
 
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel"
 )
 
 var subsystemTypeRPIO = subsystemTypeRPIOType{}

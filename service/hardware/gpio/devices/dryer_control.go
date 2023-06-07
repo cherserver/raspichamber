@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel/pins"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel/pins"
 	"github.com/cherserver/raspichamber/service/software"
 )
 
@@ -36,7 +36,7 @@ func (c *DryerControl) State() software.DryerState {
 	return c.state
 }
 
-func (c *DryerControl) SetState(state software.DryerState) {
+func (c *DryerControl) SetState(state software.DryerState) error {
 	switch state {
 	case software.DryerStateOff:
 		c.SwitchOff()
@@ -59,6 +59,8 @@ func (c *DryerControl) SetState(state software.DryerState) {
 	default:
 		panic(fmt.Sprintf("Try to set unknown dryer state '%v'", state))
 	}
+
+	return nil
 }
 
 func NewDryerControl(subsystems *PinSubsystems) *DryerControl {

@@ -53,7 +53,7 @@ const (
 type DryerControl interface {
 	State() DryerState
 
-	SetState(state DryerState)
+	SetState(state DryerState) error
 }
 
 type DryerHatch interface {

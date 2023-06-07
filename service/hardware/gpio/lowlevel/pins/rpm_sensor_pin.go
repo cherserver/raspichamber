@@ -9,12 +9,12 @@ import (
 	"github.com/warthog618/gpiod"
 	"github.com/warthog618/gpiod/device/rpi"
 
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel"
 )
 
 const (
-    secondsPerMinute = 60
-    ticksPerRevolution = 2
+	secondsPerMinute   = 60
+	ticksPerRevolution = 2
 )
 
 type rpmSensorPin struct {
@@ -72,7 +72,7 @@ func (f *rpmSensorPin) Stop() {
 }
 
 func (f *rpmSensorPin) edgeEventHandler(evt gpiod.LineEvent) {
-    go f.countEvent(evt.Timestamp)
+	go f.countEvent(evt.Timestamp)
 }
 
 func (f *rpmSensorPin) countEvent(eventTime time.Duration) {
@@ -92,5 +92,5 @@ func (f *rpmSensorPin) countEvent(eventTime time.Duration) {
 
 func (f *rpmSensorPin) RPM() (uint32, error) {
 	herz := f.counter.Rate() / 2
-	return uint32(herz*secondsPerMinute/ticksPerRevolution), nil
+	return uint32(herz * secondsPerMinute / ticksPerRevolution), nil
 }

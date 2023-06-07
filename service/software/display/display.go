@@ -11,7 +11,7 @@ import (
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font/gofont/gomonobold"
 
-	hardware "github.com/cherserver/raspichamber/service/hardware/application"
+	hardware "github.com/cherserver/raspichamber/service/hardware/uart/application"
 	"github.com/cherserver/raspichamber/service/software"
 )
 

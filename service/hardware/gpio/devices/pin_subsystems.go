@@ -3,8 +3,8 @@ package devices
 import (
 	"fmt"
 
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel/pins"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel/pins"
 )
 
 type PinSubsystems struct {

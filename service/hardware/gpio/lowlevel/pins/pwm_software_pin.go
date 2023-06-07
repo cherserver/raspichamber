@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cherserver/raspichamber/service/hardware/assert"
-	"github.com/cherserver/raspichamber/service/hardware/lowlevel"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/assert"
+	"github.com/cherserver/raspichamber/service/hardware/gpio/lowlevel"
 )
 
 type pwmSoftwarePin struct {
