@@ -92,18 +92,19 @@ func (u *UART) Send(data string) error {
 }
 
 func (u *UART) reader() {
-	scanner := bufio.NewScanner(u.port)
-	for scanner.Scan() {
-		go u.processOutput(scanner.Bytes())
-	}
+	reader := bufio.NewReader(u.port)
+	for {
+		readStr, err := reader.ReadString('\n')
+		if err != nil {
+			//TODO: restore state?
+			log.Fatalf("Error reading data from UART: %v", err)
+		}
 
-	if err := scanner.Err(); err != nil {
-		//TODO: restore state?
-		log.Fatalf("Error reading data from UART: %v", err)
+		go u.processOutput(readStr)
 	}
 }
 
-func (u *UART) processOutput(data []byte) {
+func (u *UART) processOutput(data string) {
 	if len(data) == 0 {
 		return
 	}
@@ -116,16 +117,16 @@ func (u *UART) processOutput(data []byte) {
 	u.processResponse(data)
 }
 
-func (u *UART) processResponse(data []byte) {
-	log.Printf("Response: %s", string(data))
+func (u *UART) processResponse(data string) {
+	log.Printf("Response: %s", data)
 }
 
-func (u *UART) processStatus(data []byte) {
+func (u *UART) processStatus(data string) {
 	message := make(map[string]interface{}, 0)
-	err := json.Unmarshal(data, &message)
+	err := json.Unmarshal([]byte(data), &message)
 
 	if err != nil {
-		log.Printf("Failed to unmarshall status message: %v. Msg: '%s'", err, string(data))
+		log.Printf("Failed to unmarshall status message: %v. Msg: '%s'", err, data)
 		return
 	}
 
