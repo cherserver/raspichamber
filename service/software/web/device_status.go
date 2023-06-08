@@ -28,6 +28,7 @@ type Devices struct {
 	InnerFan         Fan          `json:"inner_fan"`
 	OuterFan         Fan          `json:"outer_fan"`
 	RPiFan           Fan          `json:"rpi_fan"`
+	PrinterFan       Fan          `json:"printer_fan"`
 	InnerThermometer Thermometer  `json:"inner_thermometer"`
 	OuterThermometer Thermometer  `json:"outer_thermometer"`
 	DryerThermometer Thermometer  `json:"dryer_thermometer"`

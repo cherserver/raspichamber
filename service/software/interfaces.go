@@ -24,6 +24,10 @@ type RpiFan interface {
 	Fan
 }
 
+type PrinterFan interface {
+	Fan
+}
+
 type InnerThermometer interface {
 	Thermometer
 }

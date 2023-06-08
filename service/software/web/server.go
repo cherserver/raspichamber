@@ -22,6 +22,7 @@ type server struct {
 	innerFan         software.InnerFan
 	outerFan         software.OuterFan
 	rpiFan           software.RpiFan
+	printerFan       software.PrinterFan
 	innerThermometer software.InnerThermometer
 	outerThermometer software.OuterThermometer
 	dryerThermometer software.DryerThermometer
@@ -35,6 +36,7 @@ func NewServer(hardware *hardware.Application) *server {
 		innerFan:         hardware.InnerFan(),
 		outerFan:         hardware.OuterFan(),
 		rpiFan:           hardware.RpiFan(),
+		printerFan:       hardware.PrinterFan(),
 		innerThermometer: hardware.InnerThermometer(),
 		outerThermometer: hardware.OuterThermometer(),
 		dryerThermometer: hardware.DryerThermometer(),
@@ -53,6 +55,7 @@ func (s *server) Init() error {
 	http.HandleFunc("/devices/inner-fan/set-speed-percent", s.innerFanSetSpeedHandler)
 	http.HandleFunc("/devices/outer-fan/set-speed-percent", s.outerFanSetSpeedHandler)
 	http.HandleFunc("/devices/rpi-fan/set-speed-percent", s.rpiFanSetSpeedHandler)
+	http.HandleFunc("/devices/printer-fan/set-speed-percent", s.printerFanSetSpeedHandler)
 	http.HandleFunc("/devices/dryer-control/set-state", s.dryerControlSetStateHandler)
 	http.HandleFunc("/devices/dryer-hatch/set-angle", s.dryerHatchSetAngleHandler)
 
@@ -103,6 +106,10 @@ func (s *server) outerFanSetSpeedHandler(w http.ResponseWriter, r *http.Request)
 
 func (s *server) rpiFanSetSpeedHandler(w http.ResponseWriter, r *http.Request) {
 	s.fanSetSpeedHandler(w, r, s.rpiFan)
+}
+
+func (s *server) printerFanSetSpeedHandler(w http.ResponseWriter, r *http.Request) {
+	s.fanSetSpeedHandler(w, r, s.printerFan)
 }
 
 func (s *server) fanSetSpeedHandler(w http.ResponseWriter, r *http.Request, fan software.Fan) {
@@ -264,6 +271,10 @@ func (s *server) devicesStatus() *DevicesStatus {
 			RPiFan: Fan{
 				SpeedPercent: s.rpiFan.SpeedPercent(),
 				RPM:          s.rpiFan.RPM(),
+			},
+			PrinterFan: Fan{
+				SpeedPercent: s.printerFan.SpeedPercent(),
+				RPM:          s.printerFan.RPM(),
 			},
 			InnerThermometer: Thermometer{
 				Temperature: s.innerThermometer.Temperature(),

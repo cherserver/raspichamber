@@ -76,6 +76,25 @@
                 </div>
             </div>
         </p>
+        <p> Printer FAN
+        <div id="printerFanSpeedSlider" class="mdc-slider mdc-slider--discrete">
+            <input id="printerFanSpeed" class="mdc-slider__input" type="range" min="0" max="100" value="0" name="fanSpeed" step="1" aria-label="Printer fan speed">
+            <div class="mdc-slider__track">
+                <div class="mdc-slider__track--inactive"></div>
+                <div class="mdc-slider__track--active">
+                    <div class="mdc-slider__track--active_fill"></div>
+                </div>
+            </div>
+            <div class="mdc-slider__thumb">
+                <div class="mdc-slider__value-indicator-container" aria-hidden="true">
+                    <div class="mdc-slider__value-indicator">
+                        <span class="mdc-slider__value-indicator-text">0</span>
+                    </div>
+                </div>
+                <div class="mdc-slider__thumb-knob"></div>
+            </div>
+        </div>
+        </p>
         <p> DRYER HATCH ANGLE
             <div id="dryerHatchAngleSlider" class="mdc-slider mdc-slider--discrete mdc-slider--tick-marks">
                 <input id="dryerHatchAngle" class="mdc-slider__input" type="range" min="0" max="90" value="0" name="volume" step="1" aria-label="Dryer hatch angle">
@@ -245,6 +264,19 @@
                 <span class="mdc-text-field__affix mdc-text-field__affix--suffix">RPM</span>
             </label>
         </p>
+        <p> Printer FAN
+            <label id="printer-fan-rpm-field" class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating mdc-text-field--disabled">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label mdc-floating-label--float-above" id="printer-fan-rpm-label-id">Rate</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+                <input type="text" class="mdc-text-field__input" aria-labelledby="printer-fan-rpm-label-id" value="00" disabled>
+                <span class="mdc-text-field__affix mdc-text-field__affix--suffix">RPM</span>
+            </label>
+        </p>
     </form>
 
     <div class="mdc-touch-target-wrapper">
@@ -304,6 +336,13 @@
         enableStatusUpdate();
     });
 
+    const printerFanSlider = new mdc.slider.MDCSlider(document.querySelector('#printerFanSpeedSlider'));
+    printerFanSlider.root.addEventListener('MDCSlider:change', e => {
+        disableStatusUpdate();
+        setFanSpeedPercent('printer-fan', printerFanSlider.getValue());
+        enableStatusUpdate();
+    });
+
     const dryerHatchSlider = new mdc.slider.MDCSlider(document.querySelector('#dryerHatchAngleSlider'));
     dryerHatchSlider.root.addEventListener('MDCSlider:change', e => {
         disableStatusUpdate();
@@ -323,6 +362,7 @@
     const innerFanRPMField = new mdc.textField.MDCTextField(document.querySelector('#inner-fan-rpm-field'));
     const outerFanRPMField = new mdc.textField.MDCTextField(document.querySelector('#outer-fan-rpm-field'));
     const rpiFanRPMField = new mdc.textField.MDCTextField(document.querySelector('#rpi-fan-rpm-field'));
+    const printerFanRPMField = new mdc.textField.MDCTextField(document.querySelector('#printer-fan-rpm-field'));
 
     const dryerStateSlider = new mdc.slider.MDCSlider(document.querySelector('#dryer-state-slider'));
     dryerStateSlider.root.addEventListener('MDCSlider:change', e => {
@@ -470,6 +510,7 @@
             updateFan(devices.inner_fan, innerFanSlider, innerFanRPMField);
             updateFan(devices.outer_fan, outerFanSlider, outerFanRPMField);
             updateFan(devices.rpi_fan, rpiFanSlider, rpiFanRPMField);
+            updateFan(devices.printer_fan, printerFanSlider, printerFanRPMField);
 
             updateDryerState(devices.dryer_control);
             updateDryerHatch(devices.dryer_hatch);
