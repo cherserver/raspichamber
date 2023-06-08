@@ -38,8 +38,12 @@ func New(port string, baudRate int) *UART {
 func (u *UART) Init() error {
 	var err error
 	u.port, err = serial.OpenPort(&serial.Config{
-		Name: u.portName,
-		Baud: u.baudRate,
+		Name:        u.portName,
+		Baud:        u.baudRate,
+		ReadTimeout: 0,
+		Size:        8,
+		Parity:      serial.ParityNone,
+		StopBits:    serial.Stop1,
 	})
 	if err != nil {
 		return fmt.Errorf("failed to open serial port '%s': %w", u.portName, err)
