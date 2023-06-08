@@ -12,12 +12,13 @@ require (
 	github.com/paulbellamy/ratecounter v0.2.0
 	github.com/stianeikeland/go-rpio v4.2.0+incompatible
 	github.com/stretchr/testify v1.8.1
-	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
 	github.com/warthog618/gpiod v0.8.1
+	go.bug.st/serial v1.5.0
 	golang.org/x/image v0.7.0
 )
 
 require (
+	github.com/creack/goselect v0.1.2 // indirect
 	github.com/d2r2/go-shell v0.0.0-20191113051817-7664ea33645f // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
