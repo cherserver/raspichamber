@@ -48,12 +48,12 @@ func (u *UART) Init() error {
 		return fmt.Errorf("failed to open serial port '%s': %w", u.portName, err)
 	}
 
-	go u.reader()
-
 	err = u.Send("set-auto-report on")
 	if err != nil {
 		return fmt.Errorf("failed to set pico autoreport 'on': %w", err)
 	}
+
+	go u.reader()
 
 	return nil
 }
