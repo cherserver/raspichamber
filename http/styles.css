@@ -17,7 +17,7 @@ body {
 
 @font-face{
     font-family: "DS-DIGIB";
-    src: url("fonts/ds_digital/DS-DIGIB.ttf") format("truetype");
+    src: url("fonts/ds-digital/ds-digib.ttf") format("truetype");
 }
 
 p {
@@ -33,7 +33,7 @@ p {
 }
 
 .humidity-field {
-    max-width: 5.3em;
+    max-width: 6.3em;
 }
 
 .rpm-field {
