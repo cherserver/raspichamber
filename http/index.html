@@ -517,11 +517,11 @@
 
     function formatDecimal(data) {
         return Number(
-            parseFloat(data).toFixed(2)
+            parseFloat(data).toFixed(1)
         ).toLocaleString(
             undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
             }
         )
     }
