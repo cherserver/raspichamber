@@ -515,6 +515,17 @@
         });
     }
 
+    function formatDecimal(data) {
+        return Number(
+            parseFloat(data).toFixed(2)
+        ).toLocaleString(
+            undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        )
+    }
+
     function updateThermometer(thermometer, tempField, humidityField) {
         if (thermometer === undefined) {
             return;
@@ -522,12 +533,12 @@
 
         const temp = thermometer.temperature;
         if (temp !== undefined) {
-            tempField.value = temp;
+            tempField.value = formatDecimal(temp);
         }
 
         const hum = thermometer.humidity;
         if (hum !== undefined) {
-            humidityField.value = hum;
+            humidityField.value = formatDecimal(hum);
         }
     }
 
