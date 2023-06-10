@@ -516,12 +516,10 @@
     }
 
     function formatDecimal(data) {
-        return Number(
-            parseFloat(data).toFixed(1)
-        ).toLocaleString(
-            undefined, {
+        return parseFloat(data).toLocaleString(
+            'en-US', {
                 minimumFractionDigits: 1,
-                maximumFractionDigits: 1
+                maximumFractionDigits: 1,
             }
         )
     }
